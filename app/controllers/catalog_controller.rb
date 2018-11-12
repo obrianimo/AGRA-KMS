@@ -295,7 +295,8 @@ class CatalogController < ApplicationController
     # whether the sort is ascending or descending (it must be asc or desc
     # except in the relevancy case).
     # label is key, solr field is value
-    config.add_sort_field "#{title_field} asc", label: 'title'
+    config.add_sort_field "#{title_field} asc", label: 'title a-z'
+    config.add_sort_field "#{title_field} desc", label: 'title z-a'
     config.add_sort_field "score desc, #{uploaded_field} desc", label: "relevance"
     config.add_sort_field "#{uploaded_field} desc", label: "date uploaded \u25BC"
     config.add_sort_field "#{uploaded_field} asc", label: "date uploaded \u25B2"
@@ -313,4 +314,5 @@ class CatalogController < ApplicationController
   def render_bookmarks_control?
     false
   end
+
 end
