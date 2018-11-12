@@ -9,23 +9,24 @@ class Hyrax::HomepageController < ApplicationController
   # before_action :set_value_chain_list
   before_action :set_collection_list
   before_action :set_language_list
+  before_action :set_collection_list
   
   def set_commodities_list
-      commodities_list = get_facet_list('commodities')
-      if commodities_list == 0
-        session[:commodities_list] = []
-      else
-        session[:commodities_list] = commodities_list
-      end
+    commodities_list = get_facet_list('commodities')
+    if commodities_list == 0
+      session[:commodities_list] = []
+    else
+      session[:commodities_list] = commodities_list
+    end
   end
 
   def set_geo_location_list
-      geo_location_list = get_facet_list('based_near')
-      if geo_location_list == 0
-        session[:geo_location_list] = []
-      else
-        session[:geo_location_list] = geo_location_list
-      end
+    geo_location_list = get_facet_list('based_near')
+    if geo_location_list == 0
+      session[:geo_location_list] = []
+    else
+      session[:geo_location_list] = geo_location_list
+    end
   end
 
 #   def set_value_chain_list
@@ -37,23 +38,24 @@ class Hyrax::HomepageController < ApplicationController
 #       end
 #   end
 
-  # TODO: Needs work to dispay collections
+  # TODO: Needs work to dislpay collections
   def set_collection_list
-      collection_list = get_facet_list('member_of_collections')
-      if collection_list == 0
-        session[:collection_list] = []
-      else
-        session[:collection_list] = collection_list
-      end
+    # byebug  
+    collection_list = get_facet_list('member_of_collections')
+    if collection_list == 0
+      session[:collection_list] = []
+    else
+      session[:collection_list] = collection_list
+    end
   end
 
   def set_language_list
-      language_list = get_facet_list('language')
-      if language_list == 0
-          session[:language_list] = []
-      else
-        session[:language_list] = language_list
-      end
+    language_list = get_facet_list('language')
+    if language_list == 0
+      session[:language_list] = []
+    else
+      session[:language_list] = language_list
+    end
   end
   
 
@@ -102,7 +104,16 @@ class Hyrax::HomepageController < ApplicationController
 
     def get_facet_list(type)
       Rails.logger.info("SOLR_URL = " + ENV['SOLR_URL'].to_s)
-      uri = URI.parse(ENV['SOLR_URL'] + '/select?facet=on&q=*:*&rows=0&wt=json&indent=true&facet=true&facet.field=' + type + '_sim&facet.sort=index&facet.limit=-1&qt=standard')
+      if type == 'commodities'
+        facet_field = 'commodities_sim'
+      elsif type == 'based_near'
+        facet_field = 'based_near_sim'
+      elsif type == 'language'
+        facet_field = 'language_sim'
+      else
+        facet_field = 'member_of_collections_ssim'
+      end
+      uri = URI.parse(ENV['SOLR_URL'] + '/select?facet=on&q=*:*&rows=0&wt=json&indent=true&facet=true&facet.field=' + facet_field + '&facet.sort=index&facet.limit=-1&qt=standard')
       http = Net::HTTP.new(uri.host, uri.port)
     	req = Net::HTTP::Get.new(uri.request_uri)
     	rsp = http.request(req)
@@ -112,15 +123,15 @@ class Hyrax::HomepageController < ApplicationController
     	body = eval(rsp.body)
     	fields = []
       if body != nil
-        Rails.logger.info("BODY = " + body.to_s)
+        Rails.logger.info("BODY = " + body.to_s)  
         if type == 'commodities' 
           result = body[:facet_counts][:facet_fields][:commodities_sim]
         elsif type == 'based_near'
           result = body[:facet_counts][:facet_fields][:based_near_sim]
         # elsif type == 'value_chain'
         #   result = body[:facet_counts][:facet_fields][:value_chain_sim]
-        elsif type == 'collection'
-          result = body[:facet_counts][:facet_fields][:collection_sim]
+        elsif type == 'member_of_collections'
+          result = body[:facet_counts][:facet_fields][:member_of_collections_ssim]
         else
           result = body[:facet_counts][:facet_fields][:language_sim]
         end 
