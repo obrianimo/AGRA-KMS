@@ -16,9 +16,10 @@ class GenericWork < ActiveFedora::Base
     index.as :stored_searchable, :facetable
   end
 
-  property :title_sort, predicate: ::RDF::URI.new('http://www.teeal.org/ns#titleSortField'), multiple: true do |index|
-    index.as :stored_searchable, :stored_sortable
-  end
+#  property :title_sort, predicate: ::RDF::URI.new('http://www.teeal.org/ns#titleSortField'), multiple: true do |index|
+#    index.as :stored_searchable, :stored_sortable
+#  end
+
   # This must be included at the end, because it finalizes the metadata
   # schema (by adding accepts_nested_attributes)
   include ::Hyrax::BasicMetadata

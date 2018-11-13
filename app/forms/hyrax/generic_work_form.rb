@@ -12,7 +12,8 @@ module Hyrax
                   :visibility_during_embargo, :embargo_release_date, :visibility_after_embargo,
                   :visibility_during_lease, :lease_expiration_date, :visibility_after_lease,
                   :visibility, :ordered_member_ids, :in_works_ids,
-                  :member_of_collection_ids, :admin_set_id, :title_sort]
+                  :member_of_collection_ids, :admin_set_id]
+# add title_sort field above when it works
 
     self.required_fields = [:title, :rights_statement]
   end

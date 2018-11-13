@@ -10,8 +10,8 @@ module SolrDocumentExtensions::GenericWork
     self[Solrizer.solr_name('commodities')]
   end
 
-  def title_sort
-    self[Solrizer.solr_name('title_sort')]
-  end
+#  def title_sort
+#    self[Solrizer.solr_name('title_sort')]
+#  end
 
 end

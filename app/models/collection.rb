@@ -5,9 +5,10 @@ class Collection < ActiveFedora::Base
 
   self.indexer = Hyrax::CollectionWithBasicMetadataIndexer
 
-  property :title_sort, predicate: ::RDF::URI.new('http://www.teeal.org/ns#collectionTitleSortField'), multiple: true do |index|
-    index.as :stored_searchable, :stored_sortable
-  end
+  # property :title_sort, predicate: ::RDF::URI.new('http://www.teeal.org/ns#collectionTitleSortField'), multiple: true do |index|
+  #   index.as :stored_searchable, :stored_sortable
+  # end
+
   # include this at the end to prevent ActiveTriples::UndefinedPropertyError
   include Hyrax::BasicMetadata
 end
