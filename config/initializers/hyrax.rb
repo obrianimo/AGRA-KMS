@@ -97,7 +97,8 @@ Hyrax.config do |config|
  config.fits_path = "/cul/bin/fits.sh"
 
   # Path to the file derivatives creation tool
-  # config.libreoffice_path = "soffice"
+  # config.libreoffice_path = "/Applications/LibreOffice.app/Contents/MacOS//soffice"
+  config.libreoffice_path = "/usr/bin/soffice"
 
   # Option to enable/disable full text extraction from PDFs
   # Default is true, set to false to disable full text extraction
