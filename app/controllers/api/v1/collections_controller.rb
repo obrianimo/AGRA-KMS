@@ -6,7 +6,7 @@ module API
       def initialize
         @fq = "has_model_ssim:Collection"
         @max_rows = ActiveFedora::SolrService::MAX_ROWS
-        @fl = ['id', 'title_tesim', 'depositor_ssim', 'collection_type_gid_ssim', 'visibility_ssi']
+        @fl = ['id', 'title_tesim', 'depositor_ssim', 'collection_type_gid_ssim', 'visibility_ssi', 'nesting_collection__parent_ids_ssim']
       end
             
       def findAll
