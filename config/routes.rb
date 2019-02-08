@@ -14,9 +14,6 @@ Rails.application.routes.draw do
   devise_for :users
   mount Hydra::RoleManagement::Engine => '/'
 
-  # get 'pages/:pageType', to: 'pages#index'
-  # get 'help', to: 'pages#index'
-  # get 'about', to: 'pages#index'
 
   mount Qa::Engine => '/authorities'
   mount Hyrax::Engine, at: '/'
@@ -59,6 +56,8 @@ Rails.application.routes.draw do
       delete 'clear'
     end
   end
+
+  get 'password_policy' => 'hyrax/pages#show', key: 'password_policy'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
