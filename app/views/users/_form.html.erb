@@ -29,7 +29,7 @@
 		<% end %>
 		<% if params[:action] != "admin_edit" && params[:action] != "admin_update" %>
 	    <div class="field">
-	    	<%= f.label "Password", :class => "group-label" %> <em>(must be at least 8 characters long)</em><br>
+	    	<%= link_to 'View Password Policy', '/password_policy' %> <br>
 	    	<%= f.text_field :password, :type => "password", :class => "user-form-input" %>
 	    </div>
 		<div class="field">

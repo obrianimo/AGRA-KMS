@@ -31,6 +31,8 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password, on: :update, if: :validate_pwd
 #  validate :pwd_update_presence
   
+  validate :password_complexity
+
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
   # the account.
@@ -51,4 +53,18 @@ class User < ActiveRecord::Base
     send_devise_notification(:send_account_notification, token, {})
   end
   
+  def password_complexity
+    return if password.nil?
+
+    if password.size < 8
+      errors.add :password, "must be at least 8 characters long."
+      return
+    end
+
+    required_complexity = 4 # we're actually storing this in the configuration of each customer
+
+    if !PasswordComplexityService.new(password, required_complexity).valid?
+      errors.add :password, "does not match the security requirements."
+    end
+  end
 end
