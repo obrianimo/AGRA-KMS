@@ -1,4 +1,5 @@
 <div id="user-form-container">
+        <%= link_to 'View Password Policy', '/password_policy' %> <br>
 	<%= form_for(@user, :url => form_url) do |f| %>
 	  <% if @user.errors.any? %>
 	    <div id="error_explanation">
@@ -29,7 +30,7 @@
 		<% end %>
 		<% if params[:action] != "admin_edit" && params[:action] != "admin_update" %>
 	    <div class="field">
-	    	<%= link_to 'View Password Policy', '/password_policy' %> <br>
+	    	<%= f.label "Password", :class => "group-label" %><br>
 	    	<%= f.text_field :password, :type => "password", :class => "user-form-input" %>
 	    </div>
 		<div class="field">
