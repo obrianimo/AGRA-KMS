@@ -1,2 +1,2 @@
 #!/bin/sh
-rails server --environment=development --port 4000 > rails.log 2>&1 &
+rails server --environment=development > rails.log 2>&1 &
