@@ -8,8 +8,8 @@ Rails.application.configure do
 
   # queues for background jobs
   # even though this is dev, for now set this to :resque rather than :inline
-  # config.active_job.queue_adapter = :inline 
-  config.active_job.queue_adapter = :sidekiq 
+  config.active_job.queue_adapter = :inline 
+  #config.active_job.queue_adapter = :sidekiq 
 
   # Do not eager load code on boot.
   config.eager_load = false

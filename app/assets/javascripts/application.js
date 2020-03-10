@@ -24,3 +24,4 @@
 //= require hyrax
 //= require work_metadata_display
 //= require groups_autocomplete
+//= require homepage

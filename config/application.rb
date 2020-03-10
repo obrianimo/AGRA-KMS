@@ -28,8 +28,7 @@ module AgraKms
     config.generators do |g|
       g.test_framework :rspec, :spec => true
     end
-      
-    
+          
     config.to_prepare do
       Hyrax::WorksControllerBehavior.prepend PrependedControllers::WorksControllerBehavior
       # Hyrax::HomepageController.prepend PrependedControllers::HomepageController

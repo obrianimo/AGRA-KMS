@@ -1,20 +1,32 @@
 <li class="recent-item">
     <div class="row">
-      <div class="col-sm-2">
-        <%= link_to [main_app, recent_document] do %>
-          <%= render_thumbnail_tag recent_document, suppress_link: true %>
-        <% end %>
+      <div id="home-thumbnail-container" class="col-xs-3 col-sm-2 col-md-2 col-lg-2 recent-update-container">
+		<% if recent_document.thumbnail_path.include?("assets/work") %>
+			<a href="/concern/generic_works/<%=recent_document.id%>?locale=en"></a>
+			<a data-context-href="/catalog/<%=recent_document.id%>/track?locale=en" href="/concern/generic_works/<%=recent_document.id%>?locale=en">
+				<img suppress_link="true" class="recent-thumbnail" src="/assets/agra-kms/generic_thumbnail.png" alt="Work">
+			</a>
+		<% else %>
+        	<%= link_to [main_app, recent_document] do %>
+          		<%= render_thumbnail_tag recent_document, suppress_link: true, class: "recent-thumbnail" %>
+        	<% end %>
+		<% end %>
       </div>
-      <div class="col-sm-10">
+      <div class="col-xs-9 col-sm-10 col-md-10 col-lg-10 recent-update-container">
         <span class="sr-only"><%= t('hyrax.homepage.recently_uploaded.document.title_label') %></span><h3><%= link_to recent_document.to_s, [main_app, recent_document] %></h3>
+				<%if recent_document.creator.present?%>
+        	<p>
+          	<span class="recent-update-label"><%= t('hyrax.homepage.recently_uploaded.document.creator_label') %>:</span>
+ <%= link_to_facet_list(recent_document.creator, 'creator', t('hyrax.homepage.recently_uploaded.document.creator_missing')).html_safe %>
+        	</p>
+				<%elsif recent_document.contributor.present?%>
+			        	<p>
+			          	<span class="recent-update-label"><%= t('hyrax.homepage.recently_uploaded.document.creator_label') %>:</span>
+			 <%= link_to_facet_list(recent_document.contributor, 'contributor', t('hyrax.homepage.recently_uploaded.document.creator_missing')).html_safe %>
+			        	</p>
+				<% end %>
         <p>
-          <span class="recent-label"><%= t('hyrax.homepage.recently_uploaded.document.creator_label') %>:</span> <%= link_to_facet_list(recent_document.creator, 'creator', t('hyrax.homepage.recently_uploaded.document.creator_missing')).html_safe %>
-        </p>
-        <p>
-          <span class="recent-label"><%= t('hyrax.homepage.recently_uploaded.document.resource_type_label') %>:</span> <%= link_to_facet_list(recent_document.resource_type, 'resource_type', '').html_safe %>
-        </p>
-        <p>
-          <span class="recent-label"><%= t('hyrax.homepage.recently_uploaded.document.keyword_label') %>:</span> <%= link_to_facet_list(recent_document.keyword, 'keyword', t('hyrax.homepage.recently_uploaded.document.keyword_missing')).html_safe %>
+          <span class="recent-update-label"><%= t('hyrax.homepage.recently_uploaded.document.resource_type_label') %>:</span> <%= link_to_facet_list(recent_document.resource_type, 'resource_type', '').html_safe %>
         </p>
       </div>
     </div>

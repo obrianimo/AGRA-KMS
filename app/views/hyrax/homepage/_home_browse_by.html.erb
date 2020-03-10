@@ -1,67 +1,82 @@
 <% commodities = session[:commodities_list] %>
 <% geo_location = session[:geo_location_list] %>
-<% collection = session[:collection_list] %>
+<% value_chain = session[:value_chain_list] %>
 <% language = session[:language_list] %>
 <% if commodities.length != 0 || geo_location.length != 0 || collection.length != 0 || language.length != 0%>
-<div id="browse-by">
-	<h1 id="browse-heading">Browse by</h1>
-	<ul>
-		<li style="list-style:none">
-			<% if commodities.length != 0 %>
-			<div id="commodities-dropdown" class="btn-group browse-options">
-			  <button type="button" class="btn btn-default dropdown-toggle home-dropdown" data-toggle="dropdown">
-			      Commodity <div class="caret home-caret"></div>
-			  </button>
-
-			  <ul class="dropdown-menu" role="menu">
-					<% commodities.each do |c| %>
-			        <li style="font-size:14px"><a href="/catalog?f[commodities_sim][]=<%=c%>&locale=en&q=&search_field=all_fields"><%=c%></a></li>
-					<% end %>
-			  </ul>
-			</div>
+<div id="browse-outer-container" class="row">
+  <div class="col-xs-12 col-sm-6"></div>
+  <div id="browse-inner-container" class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <div class="row">
+      <div class="col-xs-5 col-sm-5 col-md-6 col-lg-6 browse-text">
+        <span >Browse by</span>
+      </div>
+      <div id="first-browse-option" class="col-xs-5 col-sm-5 col-md-4 col-lg-4 browse-option">
+        <button type="button" class="btn btn-link btn-anchor dropdown-toggle home-dropdown" data-toggle="dropdown">
+		     Commodity <p class="pull-right"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></p>
+		</button> 
+		<ul class="dropdown-menu" role="menu">
+		  <% if commodities.length != 0 %>
+		    <% commodities.each do |c| %>
+		      <li><span class="glyphicon glyphicon-chevron-right dropdown-chevron" aria-hidden="true"></span><a href="/catalog?f[commodities_sim][]=<%=c%>&q=&search_field=all_fields"><%=c%></a></li>
+		    <% end %>
+		  <% else %>
+			  <li>Currently, no documents reference a commodity.</li>
+		  <% end %>
+		</ul>   
+      </div>
+    </div>
+    <div class="row lower-browse-rows">
+      <div class="col-xs-5 col-sm-5 col-md-6 col-lg-6"></div>
+      <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4 browse-option">
+        <button type="button" class="btn btn-link btn-anchor dropdown-toggle home-dropdown" data-toggle="dropdown">
+		     Country <p class="pull-right"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></p>
+		</button> 
+		<ul class="dropdown-menu" role="menu">
+		    <% if geo_location.length != 0 %>
+		      <% geo_location.each do |c| %>
+		        <li><span class="glyphicon glyphicon-chevron-right dropdown-chevron" aria-hidden="true"></span><a href="/catalog?f[based_near_sim][]=<%=c%>&q=&search_field=all_fields"><%=c%></a></li>
+		      <% end %>
+			<% else %>
+			  <li>Currently, no documents reference a country.</li>
 			<% end %>
-			<% if geo_location.length != 0 %>	
-			<div id="location-dropdown" class="btn-group browse-options">
-			  <button type="button" class="btn btn-default dropdown-toggle home-dropdown" data-toggle="dropdown">
-			    Geographic Location <div class="caret home-caret"></div>
-			  </button>
-
-			  <ul class="dropdown-menu" role="menu">
-					<% geo_location.each do |c| %>
-			        <li style="font-size:14px"><a href="/catalog?f[based_near_sim][]=<%=c%>&locale=en&q=&search_field=all_fields"><%=c%></a></li>
-					<% end %>
-			  </ul>
-			</div>
+		</ul>   
+      </div>
+    </div>
+    <div class="row lower-browse-rows">
+      <div class="col-xs-5 col-sm-5 col-md-6 col-lg-6"></div>
+      <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4 browse-option">
+        <button type="button" class="btn btn-link btn-anchor dropdown-toggle home-dropdown" data-toggle="dropdown">
+		     Language <p class="pull-right"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></p>
+		</button> 
+		<ul class="dropdown-menu" role="menu">
+		    <% if language.length != 0 %>
+		      <% language.each do |c| %>
+		        <li><span class="glyphicon glyphicon-chevron-right dropdown-chevron" aria-hidden="true"></span><a href="/catalog?f[language_sim][]=<%=c%>&q=&search_field=all_fields"><%=c%></a></li>
+		      <% end %>
+			<% else %>
+			  <li>Currently, no documents reference a language.</li>
 			<% end %>
-		</li>
-		<li style="list-style:none">
-			<% if collection.length != 0 %>
-			<div id="collection-dropdown" class="btn-group browse-options">
-			  <button type="button" class="btn btn-default dropdown-toggle home-dropdown" data-toggle="dropdown">
-			     Collections <div class="caret home-caret"></div>
-			  </button>
-
-			  <ul class="dropdown-menu" role="menu">
-					<% collection.each do |c| %>
-			        <li style="font-size:14px"><a href="/catalog?f[member_of_collections_ssim][]=<%=c%>&q=&search_field=all_fields"><%=c%></a></li>
-					<% end %>
-			  </ul>
-			</div>
-			<% end %>	
-			<% if language.length != 0 %>
-			<div id="language-dropdown" class="btn-group browse-options">
-			  <button type="button" class="btn btn-default dropdown-toggle home-dropdown" data-toggle="dropdown">
-			     Language <div class="caret home-caret"></div>
-			  </button>
-
-			  <ul class="dropdown-menu" role="menu">
-					<% language.each do |c| %>
-			        <li style="font-size:14px"><a href="/catalog?f[language_sim][]=<%=c%>&q=&search_field=all_fields"><%=c%></a></li>
-					<% end %>
-			  </ul>
-			</div>
-			<% end %>	
-		</li>
-	</ul>	
-</div>
+		</ul>   
+      </div>
+    </div>
+    <div id="last-browse-row" class="row lower-browse-rows">
+      <div class="col-xs-5 col-sm-5 col-md-6 col-lg-6"></div>
+      <div class="col-xs-5 col-sm-5 col-md-4 col-lg-4 browse-option">
+        <button type="button" class="btn btn-link btn-anchor dropdown-toggle home-dropdown" data-toggle="dropdown">
+		     Value Chain <p class="pull-right"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></p>
+		</button> 
+		<ul class="dropdown-menu" role="menu">
+		    <% if value_chain.length != 0 %>
+		      <% value_chain.each do |c| %>
+		        <li><span class="glyphicon glyphicon-chevron-right dropdown-chevron" aria-hidden="true"></span><a href="/catalog?f[value_chain_sim][]=<%=c%>&q=&search_field=all_fields"><%=c%></a></li>
+		      <% end %>
+			<% else %>
+			  <li>Currently, no documents reference a value chain.</li>
+			  
+			<% end %>
+		</ul>   
+      </div>
+    </div>
+    <img id="browse-image" src="/assets/agra-kms/hands.png">
+  </div>
 <% end %> 

@@ -51,11 +51,10 @@ class CatalogController < ApplicationController
     config.add_facet_field solr_name("creator", :facetable), label: "Author", limit: 5
     config.add_facet_field solr_name("contributor", :facetable), label: "Contributor", limit: 5
     config.add_facet_field solr_name("commodities", :facetable), label: "Commodity", limit: 10
-    # config.add_facet_field solr_name("value_chain", :facetable), label: "Value Chain", limit: 10
     config.add_facet_field solr_name("based_near", :facetable), label: "Geographic Location", limit: 5
+    config.add_facet_field solr_name("value_chain", :facetable), label: "Value Chain", limit: 5
     config.add_facet_field solr_name("subject", :facetable), label: "Subject", limit: 5
     config.add_facet_field solr_name("language", :facetable), label: "Language", limit: 5
-#    config.add_facet_field solr_name("based_near_label", :facetable), limit: 5
     config.add_facet_field solr_name("publisher", :facetable), label: "Publisher", limit: 5
 #    config.add_facet_field solr_name("file_format", :facetable), label: "File Format", limit: 5
     # config.add_facet_field solr_name('member_of_collection_ids', :symbol), label: 'Collection', helper_method: :convert_id_to_name, partial: 'collection_facet_limit'

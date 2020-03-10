@@ -100,4 +100,24 @@ module DisplayHelper
     end
   end
 
+  def check_for_public_docs
+    uri = URI.parse(ENV['SOLR_URL'] + '/select?q=*%3A*&fq=visibility_ssi%3A"open"&fq=has_model_ssim%3AGenericWork&wt=json&indent=true')
+    http = Net::HTTP.new(uri.host, uri.port)
+    req = Net::HTTP::Get.new(uri.request_uri)
+    rsp = http.request(req)
+    if rsp.to_s.include?("HTTPNotFound")
+      return false
+    end
+    if rsp.msg.to_s.include?("SolrException")
+      return false
+    end
+    body = eval(rsp.body)
+    count = 0
+    if body != nil 
+      count = body[:response][:numFound]
+    end
+    return false if count == 0
+    return true if count > 0
+  end
+
 end

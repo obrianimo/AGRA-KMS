@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 #  include Hydra::UsersControllerBehavior
 #  before_action :authenticate_user!
+  with_themed_layout 'dashboard'
   before_action :authorize_admin, except: [:show, :user_pwd_change, :user_pwd_update]
   
   prepend_before_action :find_user, except: [:index, :search, :notifications_number, :new, :create, :admin_edit, :admin_update, :destroy, :admin_pwd, :admin_pwd_update, :user_pwd_change, :user_pwd_update]

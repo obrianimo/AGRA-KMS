@@ -1,7 +1,56 @@
-.serachform-container {
-  margin: 96px 0 15px;
-  border-bottom: 1px solid #cdcdcd;
+.searchform-container {
+	position: relative;
+  	margin-bottom: 40px;
+	border-bottom: 1px solid #cdcdcd;
+	background-image: url(/assets/agra-kms/AGRA_1142.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	padding: 35px 0 10px;
 }
-.masthead-padding {
-	margin-top: 105px;
+.masthead-roles {
+	margin-left: 15px;
+}
+.menu-links-separator {
+	color: #c08e00;
+	padding: 0 4px;
+}
+.search-form-menu-btn {
+	border-radius: unset;
+	margin-left: -1px;
+	height: 44px;
+}
+.search-form-menu-btn > span:first-child {
+	margin-right: 6px;
+}
+.resize-submit {
+	font-size: 18px !important;
+	padding: 9px 12px 8px !important;
+}
+.facets {
+	margin-top: 21px;
+}
+#menu-links-controls {
+	font-size: 16px;
+	position: absolute;
+	bottom: -28px;
+	left: 20px;
+	z-index: 10;
+}
+div.facets h3 {
+    font-size: 16px !important;
+}
+.dashboard #masthead {
+	margin-bottom: 0 !important;
+	min-height: 100px !important;
+	background-image: url(/assets/agra-kms/AGRA_1142.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position-y: 60px;
+}
+.margin-zero {
+	margin: 0 !important;
+}
+.footer-padding {
+	clear: both;
+	margin-top: 160px;
 }
