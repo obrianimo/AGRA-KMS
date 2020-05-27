@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200421171714) do
+ActiveRecord::Schema.define(version: 20200527174133) do
 
   create_table "batch_collections", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "batch_name", null: false
@@ -332,7 +332,7 @@ ActiveRecord::Schema.define(version: 20200421171714) do
     t.index ["grantor_id"], name: "index_proxy_deposit_rights_on_grantor_id"
   end
 
-  create_table "public_usage_stats", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "public_usage_stats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "file_id", null: false
     t.text "title"
     t.integer "downloads"
