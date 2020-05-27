@@ -119,6 +119,7 @@ en:
             remove: Remove
             title: Depositors
             type: Type
+          logged_in_users: Logged In Users
           managers:
             action: Action
             agent_name: Managers of This Set
@@ -269,7 +270,8 @@ en:
         profile: Profile
         repository_objects: Repository Contents
         settings: Settings
-        statistics: Reports
+        statistics: 'Works & Curator Statistics'
+        file_views: 'File Views & Downloads'
         tasks: Tasks
         technical: Features
         transfers: Transfers
@@ -756,6 +758,7 @@ en:
         repository_objects:
           subtitle: Current Status
           title: Repository Objects
+          documents: Repository Documents
         returning_visitors: Returning Visitors
         total_visitors: Total Visitors
         user_activity:

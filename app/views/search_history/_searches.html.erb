@@ -1,0 +1,33 @@
+<div class="col-12 col-sm-12 col-lg-10">
+  <div class="main-header">
+    <h2>Search History</h2>
+  </div>
+  <div class="col-12 col-sm-12 col-lg-10">
+	  <form method="get" action="search_history" class="well form-search" style="background-color:#fff">
+	    <label class="sr-only">Search History</label>
+		<label>20 most popular queries in the last</label>
+		<select name="query_range" onchange="this.form.submit()" autocomplete="off">
+			<option id="three-months" value="3" <% if @query_range.nil? || @query_range == '3' %> selected="selected"<% end %>>Three months</option>
+			<option id="six-months" value="6" <% if @query_range == '6' %> selected="selected"<% end %>>Six months</option>
+			<option id="nine-months" value="9" <% if @query_range == '9' %> selected="selected"<% end %>>Nine months</option>
+			<option id="year" value="12" <% if @query_range == '12' %> selected="selected"<% end %>>Year</option>
+		</select>
+	    </div>
+	  </form>
+  <div class="col-12 col-sm-12 col-lg-10" style="">
+	<% if @queries != nil %>
+       <div class="col-8 col-sm-8 col-lg-8" style="border-bottom:2px solid #ddd; text-align: center">
+			Query Term
+	   </div>
+       <div class="col-3 col-sm-3 col-lg-3" style="border-bottom:2px solid #ddd; text-align: center;">
+			Count
+	   </div>
+	   <div class="col-1 col-sm-1 col-lg-1"></div>
+	  <% @queries.each do |q| %>
+		  <div class="col-8 col-sm-8 col-lg-8" style="margin-top:5px"><%=q[0].join(", ")%></div>
+		  <div class="col-3 col-sm-3 col-lg-3" style="text-align: center"><%=q[1]%></div>
+	   <div class="col-1 col-sm-1 col-lg-1"></div>
+	  <%end%>
+	<% end %>
+  </div>
+</div>

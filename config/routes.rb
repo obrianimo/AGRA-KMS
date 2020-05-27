@@ -11,7 +11,8 @@ Rails.application.routes.draw do
     concerns :searchable
   end
 
-  devise_for :users
+  devise_for :users, controllers: {sessions: 'user/sessions'}, path: '/'
+  
   mount Hydra::RoleManagement::Engine => '/'
 
   # get 'pages/:pageType', to: 'pages#index'
@@ -38,6 +39,9 @@ Rails.application.routes.draw do
   patch '/user_mgmt/pwd_update', controller: 'users', to: 'users#admin_pwd_update'
   get '/user_mgmt/pwd_change/:user_id', controller: 'users', to: 'users#user_pwd_change' 
   patch '/user_mgmt/user_pwd_update', controller: 'users', to: 'users#user_pwd_update'
+  get 'file_downloads/:id', to: 'file_downloads#show'
+  get 'reports/:reportType', to: 'reports#index'
+  get 'search_history/', to: 'search_history#index'
 
   # API routes
   scope '/api' do

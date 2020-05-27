@@ -1,0 +1,15 @@
+<div id="menu-links-home-empty">
+  <span><a href="/">Home</a></span>
+  <% if current_user %>
+    <span class="menu-links-separator">|</span>
+    <span><a href="/dashboard">Dashboard</a></span>
+  <% end %>
+  <span class="menu-links-separator">|</span>
+  <span><a href="#">Search Help</a></span>
+  <% if !current_user %>
+    <span class="menu-links-separator">|</span>
+    <span><a href="#">About KMS</a></span>
+    <span class="menu-links-separator">|</span>
+    <span><a href="#">Contact</a></span>
+  <% end %>
+</div>

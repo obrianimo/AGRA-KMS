@@ -29,9 +29,13 @@
   <% coll_array.sort_by { |hsh| hsh["label"] }.each do |collection| %>
     <div class="row margin-zero">
 	  <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 collections-list-sub-left">
-	    <a class="collections-list-link"  href="/catalog?f[member_of_collection_ids_ssim][]=<%= collection['id'] %>&locale=en&q=&search_field=all_fields" >
-		  <%= collection["label"]%>
-		</a>
+		<% if current_user %>
+	      <a class="collections-list-link"  href="/catalog?f[member_of_collection_ids_ssim][]=<%= collection['id'] %>&locale=en&q=&search_field=all_fields" >
+		    <%= collection["label"]%>
+		  </a>
+		<% else %>
+	      <%= collection["label"]%>
+		<% end %>
 	  </div>
 	  <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 collections-list-sub-right">
 	    <p class="collections-list-p margin-zero" ><span class="collections-list-label">Total items:</span> <%= collection["items"] %>

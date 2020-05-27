@@ -1,0 +1,57 @@
+.user-accts-header {
+	padding-top: 16px;
+}
+.pwd-change-hdr {
+	margin-left: 6px;
+}
+#user-accts-data {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	margin-bottom: 20px;
+}
+div#user-form-container, div#role-form-container {
+	padding-top: 6px;	
+	padding-left: 24px;	
+	background-color: #fff;
+	border: 1px solid #ccc;
+}	
+div#role-form-container form {
+	display: inline;
+}
+div#reports-table {
+	background-color: #fff;
+}
+#stats-container form {
+  background-color: #fff;
+  padding: 12px;
+}
+#stats-container p {
+  background-color: #fff;
+  padding: 12px;
+  margin-bottom: 0;
+}
+#stats-container ul {
+  background-color: #fff;
+  padding: 12px 0 12px 24px;
+}
+.reports-table th, td  {
+	padding: 10px 20px;
+}
+.reports-table tr:nth-child(even) {
+	background-color: #f9f9f9;
+}
+.reports-table th {
+	border-bottom: 2px solid #dddddd;
+	text-align: left;
+}
+.reports-table td:first-child  {
+	padding: 10px 60px 4px 20px;
+}
+.reports-table-default {
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 20px;
+}
+.sorts-active {
+	color: #1caade;
+}

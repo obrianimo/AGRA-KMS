@@ -1,0 +1,73 @@
+<div class="col-12 col-sm-12 col-lg-10">
+	<div class="main-header">
+  	<h2>File Views and Downloads</h2>
+  </div>
+  <div class="col-12 col-sm-12 col-lg-12" style="padding: 0">
+	  <form method="get" action="usage_stats" class="well form-search" style="background-color:#fff">
+	    <label class="sr-only">Public Views and Downloads</label>
+		<label>File title</label>
+	    <%= text_field_tag :title, params[:title], class: "q", placeholder: "Enter a full or partial title", size: '36', type: "search", id: "file_title" %>
+	    <%= hidden_field_tag :sort, params[:sort], id: 'fileview_sort' %>
+	    <%= render_hash_as_hidden_fields(params_for_search().except(:title, :sort, :qt, :page, :utf8)) %>
+	    <button type="submit" class="btn btn-primary" id="fileview_submit"> 
+	      <i class="glyphicon glyphicon-search"></i> Go
+	    </button>
+	    </div>
+	  </form>
+	<% if @public_usage != nil %>
+	<div aria-hidden="true" class="page_links">
+		<%= @top_navigation.html_safe %>
+	</div>
+	<div id="per_page-dropdown" class="btn-group pull-right">
+	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+	    <%= @per_page %> per page <span class="caret"></span>
+	  </button>
+	  <ul class="dropdown-menu" role="menu">
+	      <li><a href="usage_stats?per_page=10&amp;sort=<%=params[:sort]%>&amp;title=<%=params[:title]%>">10<span class="sr-only"> per page</span></a></li>
+	      <li><a href="usage_stats?per_page=20&amp;sort=<%=params[:sort]%>&amp;title=<%=params[:title]%>">20<span class="sr-only"> per page</span></a></li>
+	      <li><a href="usage_stats?per_page=50&amp;sort=<%=params[:sort]%>&amp;title=<%=params[:title]%>">50<span class="sr-only"> per page</span></a></li>
+	      <li><a href="usage_stats?per_page=100&amp;sort=<%=params[:sort]%>&amp;title=<%=params[:title]%>">100<span class="sr-only"> per page</span></a></li>
+	  </ul>
+	</div>
+    <div id="reports-table" >
+		<% sorts = "class='sorts sorts-active'"%>
+	    <table class="reports-table reports-table-default">
+	      <thead>
+	        <tr>
+	          <th>
+				<%if params[:sort]!= "title" && !params[:sort].blank? %><a href="usage_stats?sort=title">Title</a><%else%>Title<%end%>
+			  </th>
+	          <th>
+				<%if params[:sort]!= "views"%><a href="usage_stats?sort=views">Views</a><%else%>Views<%end%>
+			  </th>
+	          <th>
+				<%if params[:sort]!= "last_viewed_at"%><a href="usage_stats?sort=last_viewed_at">Last View</a><%else%>Last View<%end%>
+			  </th>
+	          <th>
+				<%if params[:sort]!= "downloads"%><a href="usage_stats?sort=downloads">Downloads</a><%else%>Downloads<%end%>
+			  </th>
+	          <th>
+				<%if params[:sort]!= "last_downloaded_at"%><a href="usage_stats?sort=last_downloaded_at">Last Download</a><%else%>Last Download<%end%>
+			  </th>
+	        </tr>
+	    </thead>
+	    <tbody  style="max-height:100px; overflow:auto">
+	    <% @public_usage.each do |d| %>
+	      <tr>
+	        <td><%= d.title%></td>
+	        <td><%= d.views %></td>
+	        <td><% if d.last_viewed_at.present? %><%= d.last_viewed_at.to_date.strftime("%d %B %Y") %><% end %></td>
+	        <td><% if d.last_downloaded_at.present? %><%= d.downloads %><% else %>0<% end %></td>
+	        <td><% if d.last_downloaded_at.present? %><%= d.last_downloaded_at.to_date.strftime("%d %B %Y") %><% end %></td>
+	      </tr>
+		<% end %>
+	    </tbody>
+	  </table>
+    </div>
+
+	<% end %>
+  </div>
+</div>
+	<div class="pagination">
+		<%= @bottom_navigation.html_safe %>
+	</div>

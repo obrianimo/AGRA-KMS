@@ -50,7 +50,7 @@
       </li>
       <li>
         <% if current_page?(main_app.new_user_session_path) %>
-          <span class="active-menu"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login</span>
+          <span class="active-menu" style="padding:10px 10px 0"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login</span>
         <% else %>
           <%= link_to main_app.new_user_session_path do %><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login<% end %>
         <% end %>

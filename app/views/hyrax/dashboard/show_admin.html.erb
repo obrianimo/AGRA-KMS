@@ -7,19 +7,21 @@
     <div class="panel panel-default">
       <div class="panel-heading"><div class="h3 panel-title text-center"><%= t('.registered_users') %></div></div>
       <div class="panel-body text-center">
-        Current
-        <div class="h3"><%= @presenter.user_count %></div>
+        Total
+        <div class="h3"><a href="/users"><%= @presenter.user_count %></a></div>
       </div>
     </div>
   </div>
-
-    <%= render 'admin_sets' %>
-</div>
-
-
-
-<div class="row">
-  <div class="col-md-4">
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading"><div class="h3 panel-title text-center"><%= t('.logged_in_users') %></div></div>
+      <div class="panel-body text-center">
+		Currently Active
+        <div class="h3"><%= logged_in_users %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="h3 panel-title"><%= t('.user_activity.title') %></div>
@@ -34,8 +36,11 @@ Hyrax.statistics.userActivity = <%== @presenter.user_activity.to_json %>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="col-md-4">
+<div class="row">
+
+  <div class="col-md-7">
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="h3 panel-title"><%= t('.repository_growth.title') %></div>
@@ -51,7 +56,7 @@ Hyrax.statistics.repositoryGrowth = <%== @presenter.repository_growth.to_json %>
     </div>
   </div>
 
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="h3 panel-title"><%= t('.repository_objects.title') %></div>
@@ -67,3 +72,5 @@ Hyrax.statistics.repositoryObjects = <%== @presenter.repository_objects.to_json 
     </div>
   </div>
 </div>
+<%= render 'admin_sets' %>
+

@@ -119,5 +119,35 @@ module DisplayHelper
     return false if count == 0
     return true if count > 0
   end
+  
+  def logged_in_users
+    @users =  User.all
+    count = 0
+    @users.each do |user|
+        if user.logged_in
+          x = Time.now.utc - user.last_request_at
+          if x < Devise.timeout_in
+            count += 1
+          end
+        end
+    end
+    return count
+  end
+  
+  def get_views_and_downloads(id)
+    @data = PublicUsageStats.find_by_sql("SELECT views, downloads FROM public_usage_stats WHERE file_id = '" + id + "';")
+    view_str = " views"
+    download_str = " downloads"
+    if @data.present?
+      view_count = @data[0][:views].present? ? @data[0]["views"] : 0
+      download_count = @data[0][:downloads].present? ? @data[0]["downloads"] : 0
+      view_str = " view" if view_count == 1
+      download_str = " download" if download_count == 1
+      str = view_count.to_s + view_str + " and " + download_count.to_s + download_str
+    else
+      str = "0 views and 0 downloads"
+    end
+    return str
+  end
 
 end

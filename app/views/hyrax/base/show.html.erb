@@ -29,13 +29,15 @@
             <%= render 'work_description', presenter: @presenter %>
             <%= render 'metadata', presenter: @presenter %>
           </div>
-          <div class="col-sm-12">
-            <%= render 'relationships', presenter: @presenter %>
-            <%= render 'items', presenter: @presenter %>
-            <%# TODO: we may consider adding these partials in the future %>
-            <%# = render 'sharing_with', presenter: @presenter %>
-            <%# = render 'user_activity', presenter: @presenter %>
-          </div>
+          <% if current_user %>
+            <div class="col-sm-12">
+              <%= render 'relationships', presenter: @presenter %>
+              <%= render 'items', presenter: @presenter %>
+              <%# TODO: we may consider adding these partials in the future %>
+              <%# = render 'sharing_with', presenter: @presenter %>
+              <%# = render 'user_activity', presenter: @presenter %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
