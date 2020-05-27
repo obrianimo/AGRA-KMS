@@ -17,7 +17,7 @@ var homepageFunctions = {
 };
 
 Blacklight.onLoad( function() {
-    if ( $('body').prop('className').indexOf("homepage") ) {
+    if ( $('body').prop('className').indexOf("homepage") > -1 ) {
 	    homepageFunctions.onLoad();
     }
 });

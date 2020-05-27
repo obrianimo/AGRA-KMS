@@ -65,7 +65,7 @@ input.search-q {
 		font-size: 1.2em;
 	}
 }
-ul.dropdown-menu {
+div.browse-option > ul.dropdown-menu {
 	right: 30px !important;
 	left: auto !important;
 	margin: 0 !important;
@@ -86,7 +86,7 @@ ul.dropdown-menu {
 		color: #cf7c00;
 	}
 }
-.dropdown-menu > li  {
+div.browse-option > ul.dropdown-menu > li  {
 	position: relative;
 	background-color: #e7f9ca;
 	&:hover {
@@ -94,7 +94,7 @@ ul.dropdown-menu {
 		color: #cf7c00;
 	}
 }
-.dropdown-menu > li > a {
+div.browse-option > ul.dropdown-menu > li > a {
 	background-color: #e7f9ca;
 	&:hover {
 		background-color: #e7f9ca;
