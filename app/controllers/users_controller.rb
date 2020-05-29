@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   with_themed_layout 'dashboard'
   before_action :authorize_admin, except: [:show, :user_pwd_change, :user_pwd_update]
   
-  prepend_before_action :find_user, except: [:index, :search, :notifications_number, :new, :create, :admin_edit, :admin_update, :destroy, :admin_pwd, :admin_pwd_update, :user_pwd_change, :user_pwd_update]
+  prepend_before_action :find_user, except: [:index, :search, :active_users, :notifications_number, :new, :create, :admin_edit, :admin_update, :destroy, :admin_pwd, :admin_pwd_update, :user_pwd_change, :user_pwd_update]
   before_action :authenticate_user!, only: [:edit, :update, :follow, :unfollow, :toggle_trophy, :new, :create]
   
   # users need to access their profile pages, so we don't authorize_admin on :show.
@@ -110,6 +110,20 @@ class UsersController < ApplicationController
     delete_user_from_admin_role(@user)
     @user.destroy
     redirect_to '/users', notice: 'The user was successfully deleted.'
+  end
+
+  def active_users
+    @users =  User.all
+    @active_users = []
+    @users.each do |user|
+      if user.logged_in
+        x = Time.now.utc - user.last_request_at
+        if x < Devise.timeout_in
+          @active_users << user
+        end
+      end
+    end
+    render :active_users
   end
 
   protected

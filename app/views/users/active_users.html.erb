@@ -1,0 +1,28 @@
+<div class="user-management masthead-padding">
+  <ul class="breadcrumb"><li><a href="/?locale=en">Home</a></li><li><a href="/dashboard?locale=en">Dashboard</a></li></ul>
+	
+  <h2 class="groups-heading">Active Users</h2>
+  <div class="col-12 col-sm-12 col-lg-10" style="">
+	<% if @active_users != nil %>
+	  <div class="row">
+       <div class="col-4 col-sm-4 col-lg-4" style="border-bottom:2px solid #ddd; text-align: left;">
+			<strong>Name</strong>
+	   </div>
+       <div class="col-4 col-sm-4 col-lg-4" style="border-bottom:2px solid #ddd; text-align: left">
+			<strong>Email</strong>
+	   </div>
+       <div class="col-4 col-sm-4 col-lg-4" style="border-bottom:2px solid #ddd; text-align: left">
+	   		<strong>Log in Time</strong>
+	   </div>
+	  </div>
+	  <% @active_users.each do |u| %>
+	    <div class="row"style="margin-top:5px;">
+		  <div class="col-4 col-sm-4 col-lg-4" style="text-align: left"><%=u['display_name']%></div>
+		  <div class="col-4 col-sm-4 col-lg-4" style="text-align: left"><%=u['email']%></div>
+		  <div class="col-4 col-sm-4 col-lg-4" style="text-align: left"><%=u['current_sign_in_at'].to_s.gsub(" UTC","")%></div>
+	    </div>
+	  <%end%>
+    <% end %>
+  </div>
+</div>
+

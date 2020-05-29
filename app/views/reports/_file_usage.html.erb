@@ -2,7 +2,7 @@
 	<div class="main-header">
   	<h2>File Views and Downloads</h2>
   </div>
-  <div class="col-12 col-sm-12 col-lg-12" style="padding: 0">
+  <div class="col-12 col-sm-12 col-lg-10" style="padding: 0">
 	  <form method="get" action="usage_stats" class="well form-search" style="background-color:#fff">
 	    <label class="sr-only">Public Views and Downloads</label>
 		<label>File title</label>
@@ -12,13 +12,13 @@
 	    <button type="submit" class="btn btn-primary" id="fileview_submit"> 
 	      <i class="glyphicon glyphicon-search"></i> Go
 	    </button>
-	    </div>
 	  </form>
+	</div>
 	<% if @public_usage != nil %>
 	<div aria-hidden="true" class="page_links">
 		<%= @top_navigation.html_safe %>
 	</div>
-	<div id="per_page-dropdown" class="btn-group pull-right">
+	<div id="per_page-dropdown" class="btn-group pull-right" >
 	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 	    <%= @per_page %> per page <span class="caret"></span>
 	  </button>
@@ -29,9 +29,9 @@
 	      <li><a href="usage_stats?per_page=100&amp;sort=<%=params[:sort]%>&amp;title=<%=params[:title]%>">100<span class="sr-only"> per page</span></a></li>
 	  </ul>
 	</div>
-    <div id="reports-table" >
+    <div>
 		<% sorts = "class='sorts sorts-active'"%>
-	    <table class="reports-table reports-table-default">
+	    <table class="table table-striped">
 	      <thead>
 	        <tr>
 	          <th>
@@ -51,7 +51,7 @@
 			  </th>
 	        </tr>
 	    </thead>
-	    <tbody  style="max-height:100px; overflow:auto">
+	    <tbody>
 	    <% @public_usage.each do |d| %>
 	      <tr>
 	        <td><%= d.title%></td>
