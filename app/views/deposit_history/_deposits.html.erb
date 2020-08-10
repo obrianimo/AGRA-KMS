@@ -1,0 +1,242 @@
+<div class="col-12 col-sm-12 col-lg-10" style="margin-bottom:30px">
+  <div class="main-header">
+    <h2>Deposit History</h2>
+    <label class="sr-only">Deposit History</label>
+  </div>
+  <div class="col-12 col-sm-12 col-lg-10">
+	<form id="dep_history_form" method="get" action="/deposit_history/user/" class="form-search" style="background-color:#fff">
+	</form>
+	<div class="well">
+		<label>Report type</label>
+		<select id="report_type" name="report_type" autocomplete="off" style="margin: 0 0 12px 3px;">
+			<option value="by_all_users" <% if @query_type == "depositor" %>selected="selected"<% end %>>Works by all users</option>
+			<option value="by_title" <% if @query_type == "work" %>selected="selected"<% end %>>Works by title</option>
+			<option value="by_user" <% if @query_type == "user" %>selected="selected"<% end %>>Works by individual user</option>
+		</select>
+  		<br />
+		<span id="select_user" <% if @query_type == "user" %>style="display:block"<% else %>style="display:none"<% end %>>
+		<label>Select user</label>
+		  <select id="email" name="email" autocomplete="off" style="margin-left:7px;">
+		  	<option value=""></option>
+		  	<% users = get_user_list %>
+		  	<% users.each do |u|%>
+		  		<% name = u.display_name.present? ? u.display_name : u.email%>
+		  		<option value="<%=u.email%>" <% if u.email == @email%>selected="selected"<% end %>><%=name%></option>
+		  	<% end %>
+		  </select>
+		</span>
+	  </div>
+  </div>
+  <div class="col-12 col-sm-12 col-lg-10" style="">
+	<% if @docs != nil %>
+      <% if @query_type == "user"%>
+		<h3 style="margin:0 0 15px -15px">Works Deposited by <%= @email%></h3>
+          <div class="dh-totals">
+	   		Total deposits: <%= @num_found %><br/>
+	   		Last Upload: <%= @last_upload %>
+	      </div>
+	    <div class="row" style="margin-top:6px">
+          <div class="col-8 col-sm-8 col-lg-8" style="border-bottom:2px solid #ddd; text-align: left">
+	   		<strong>Title</strong>
+	      </div>
+          <div class="col-4 col-sm-4 col-lg-4" style="border-bottom:2px solid #ddd; text-align: left">
+	   		<strong>Date Uploaded</strong>
+	      </div>
+        </div>
+		<% if @num_found.to_i <= @per_page.to_i %>
+	      <% @docs.each do |d| %>
+       	    <div class="row" style="margin-top:6px">
+		      <div class="col-8 col-sm-8 col-lg-8"><%=d['title_tesim'][0]%></div>
+		      <div class="col-4 col-sm-4 col-lg-4"><%= d['system_create_dtsi'][0..9]%></div>
+            </div>
+	      <% end %>
+	    <% else %>
+		  <%# last = @start_at.to_i + @per_page.to_i%>
+	      <% @docs.each do |d| %>
+     	    <div class="row" style="margin-top:6px">
+		      <div class="col-8 col-sm-8 col-lg-8"><%=d['title_tesim'][0]%></div>
+		      <div class="col-4 col-sm-4 col-lg-4"><%= d['system_create_dtsi'][0..9]%></div>
+            </div>
+		
+	      <% end %>	 
+   	    <div class="row" style="margin-top:16px">
+	          <% next_start = @start_at.to_i + @per_page.to_i%>
+              <% prev_start = @start_at.to_i - @per_page.to_i%>
+		      <div class="col-5 col-sm-5 col-lg-5">
+		        <%if @start_at.to_i <= 0 %>
+		          &lt;&lt; Previous
+		        <% else %>
+		          <a href="/deposit_history/user/?email=<%=@email%>&start=<%= prev_start %>">
+			        &lt;&lt; Previous
+			      </a>
+			    <% end %> | 
+		        <%if @num_found.to_i > @start_at.to_i + @per_page.to_i %>
+		          <a href="/deposit_history/user?email=<%=@email%>&start=<%= next_start %>">
+			         Next &gt;&gt;
+			      </a>
+		        <% else %>
+		          Next &gt;&gt;
+		        <% end %>
+		      </div>
+          </div>
+	    <% end %>
+	  <% end %>
+	  <% if @query_type == "depositor"%>
+		<h3 style="margin:0 0 15px -15px">Deposited Works by User</h3>
+	    <div class="row" style="margin-top:6px">
+          <div class="col-4 col-sm-4 col-lg-4" style="border-bottom:2px solid #ddd; text-align: left;">
+		    <strong>Name / Email</strong>
+	      </div>
+          <div class="col-5 col-sm-5 col-lg-5" style="border-bottom:2px solid #ddd; text-align: left">
+	   		<strong>Title</strong>
+	      </div>
+          <div class="col-3 col-sm-3 col-lg-3" style="border-bottom:2px solid #ddd; text-align: left">
+	   		<strong>Date Uploaded</strong>
+	      </div>
+        </div>
+		<% current = "" %>
+		<% deposit_count = 0 %>
+		<% total_count = 0 %>
+        <% if @num_found.to_i <= @per_page.to_i %>
+          <% @docs.each do |d| %>
+        	<% if d['depositor_ssim'][0] != current && !current.empty?%>
+	    	  <div class="row" style="margin-top:6px;">
+	    	      <div class="col-3 col-sm-3 col-lg-3"></div>
+	    	      <div class="col-6 col-sm-6 col-lg-6"></div>
+	    	      <div class="col-3 col-sm-3 col-lg-3" style="background-color:#cdc">total deposits: <%= deposit_count %></div>
+        	  </div>
+	    	  <% deposit_count = 0 %>
+	    	<% end %>
+        	<div class="row" <% if d['depositor_ssim'][0] != current %>style="margin-top:12px"<%else%>style="margin-top:6px"<%end%>>
+	    	  <div class="col-3 col-sm-3 col-lg-3"><%= get_user_name(d['depositor_ssim'][0]) if d['depositor_ssim'][0] != current %></div>
+	    	  <div class="col-6 col-sm-6 col-lg-6"><%= d['title_tesim'][0]%></div>
+        	  <div class="col-3 col-sm-3 col-lg-3"><%= d['system_create_dtsi'][0..9]%></div>
+        	</div>
+	    	<% deposit_count += 1 %>
+	    	<% if d == @docs.last %>
+	    	  <div class="row" style="margin-top:6px">
+	    	      <div class="col-3 col-sm-3 col-lg-3"></div>
+	    	      <div class="col-6 col-sm-6 col-lg-6"></div>
+	    	      <div class="col-3 col-sm-3 col-lg-3" style="background-color:#cdc">total deposits: <%= deposit_count %></div>
+        	  </div>
+	    	<% else %>
+	    	  <% current = d['depositor_ssim'][0]%>
+	    	<% end %>
+	      <% end %>
+        <% else %>
+	      <% @docs[@start_at.to_i..-1].each do |d| %>
+	        <% if d['depositor_ssim'][0] != current && deposit_count >= @per_page.to_i %>
+	  	      <div class="row" style="margin-top:6px;">
+	  	        <div class="col-3 col-sm-3 col-lg-3"></div>
+	  	        <div class="col-6 col-sm-6 col-lg-6"></div>
+	  	        <div class="col-3 col-sm-3 col-lg-3" style="background-color:#cdc">total deposits: <%= deposit_count %></div>
+      	      </div>
+			  <% total_count = total_count + deposit_count %>
+	          <% break %>
+	        <% else %>
+	        	<% if d['depositor_ssim'][0] != current && !current.empty?%>
+		    	  <div class="row" style="margin-top:6px;">
+		    	      <div class="col-3 col-sm-3 col-lg-3"></div>
+		    	      <div class="col-6 col-sm-6 col-lg-6"></div>
+		    	      <div class="col-3 col-sm-3 col-lg-3" style="background-color:#cdc">total deposits: <%= deposit_count %></div>
+	        	  </div>
+				  <% total_count = total_count + deposit_count %>
+		    	  <% deposit_count = 0 %>
+		    	<% end %>
+	        	<div class="row" <% if d['depositor_ssim'][0] != current %>style="margin-top:12px"<%else%>style="margin-top:6px"<%end%>>
+		    	  <div class="col-3 col-sm-3 col-lg-3"><%= get_user_name(d['depositor_ssim'][0]) if d['depositor_ssim'][0] != current %></div>
+		    	  <div class="col-6 col-sm-6 col-lg-6"><%= d['title_tesim'][0]%></div>
+	        	  <div class="col-3 col-sm-3 col-lg-3"><%= d['system_create_dtsi'][0..9]%></div>
+            	</div>
+		    	<% deposit_count += 1 %>
+		    	<% if d == @docs.last %>
+		    	  <div class="row" style="margin-top:6px">
+		    	      <div class="col-3 col-sm-3 col-lg-3"></div>
+		    	      <div class="col-6 col-sm-6 col-lg-6"></div>
+		    	      <div class="col-3 col-sm-3 col-lg-3" style="background-color:#cdc">total deposits: <%= deposit_count %></div>
+	        	  </div>
+	              <% total_count = total_count + deposit_count %>
+		    	<% else %>
+		    	  <% current = d['depositor_ssim'][0]%>
+		    	<% end %>
+		    <% end %>
+	      <% end %>
+   	      <div class="row" style="margin-top:16px">
+            <% prev_start = @prev%>
+			<% next_start = total_count + @start_at.to_i%>
+		    <div class="col-5 col-sm-5 col-lg-5">
+		      <%if @start_at.to_i <= 0 %>
+		          &lt;&lt; Previous
+		      <% else %>
+		          <a href="/deposit_history/depositor?start=<%= prev_start %>">
+			        &lt;&lt; Previous
+			      </a>
+			  <% end %> | 
+		      <%if @num_found.to_i > total_count + @start_at.to_i  %>
+		          <a href="/deposit_history/depositor?start=<%= next_start %>&prev=<%= @start_at.to_i%>">
+			         Next &gt;&gt;
+			      </a>
+		      <% else %>
+		          Next &gt;&gt;
+		      <% end %>
+		    </div>
+          </div>
+        <% end %>
+	  <% end %>
+	  <% if @query_type == "work"%>
+		<h3 style="margin:0 0 15px -15px">Deposited Works by Title</h3>
+	    <div class="dh-totals">
+	   		Total works deposited: <%= @num_found %>
+        </div>
+	    <div class="row" style="margin-top:6px">
+          <div class="col-6 col-sm-6 col-lg-6" style="border-bottom:2px solid #ddd; text-align: left">
+	   		<strong>Title</strong>
+	      </div>
+          <div class="col-3 col-sm-3 col-lg-3" style="border-bottom:2px solid #ddd; text-align: left;">
+		    <strong>Name / Email</strong>
+	      </div>
+          <div class="col-3 col-sm-3 col-lg-3" style="border-bottom:2px solid #ddd; text-align: left">
+	   		<strong>Date Uploaded</strong>
+	      </div>
+        </div>
+		<% if @num_found <= @per_page.to_i %>
+	      <% @docs.each do |d| %>
+		    <div class="row" style="margin-top:6px;">
+		      <div class="col-6 col-sm-6 col-lg-6"><%= d['title_tesim'][0]%></div>
+		      <div class="col-3 col-sm-3 col-lg-3" style="margin-top:5px;"><%= get_user_name(d['depositor_ssim'][0])%></div>
+	          <div class="col-3 col-sm-3 col-lg-3" style="margin-top:5px;"><%= d['system_create_dtsi'][0..9]%></div>
+	        </div>
+	      <% end %>
+	    <% else %>
+          <% next_start = @start_at.to_i + @per_page.to_i%>
+          <% prev_start = @start_at.to_i - @per_page.to_i%>
+	      <% @docs[@start_at.to_i..next_start-1].each do |d| %>
+     	    <div class="row" style="margin-top:6px">
+		      <div class="col-6 col-sm-6 col-lg-6"><%=d['title_tesim'][0]%></div>
+		      <div class="col-3 col-sm-3 col-lg-3" style="margin-top:5px;"><%= get_user_name(d['depositor_ssim'][0])%></div>
+	          <div class="col-3 col-sm-3 col-lg-3" style="margin-top:5px;"><%= d['system_create_dtsi'][0..9]%></div>
+            </div>
+	      <% end %>	 
+   	      <div class="row" style="margin-top:16px">
+		      <div class="col-5 col-sm-5 col-lg-5">
+		        <%if @start_at.to_i <= 0 %>
+		          &lt;&lt; Previous
+		        <% else %>
+		          <a href="/deposit_history/work?start=<%= prev_start %>">
+			        &lt;&lt; Previous
+			      </a>
+			    <% end %> | 
+		        <%if @num_found.to_i > @start_at.to_i + @per_page.to_i %>
+		          <a href="/deposit_history/work?start=<%= next_start %>">
+			         Next &gt;&gt;
+			      </a>
+		        <% else %>
+		          Next &gt;&gt;
+		        <% end %>
+		      </div>
+          </div>
+	    <% end %>
+	  <% end %>
+	<% end %>
+  </div>
+</div>

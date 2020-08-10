@@ -41,8 +41,12 @@ Rails.application.routes.draw do
   patch '/user_mgmt/user_pwd_update', controller: 'users', to: 'users#user_pwd_update'
   get '/user_mgmt/active', controller: 'users', to: 'users#active_users' 
   get 'file_downloads/:id', to: 'file_downloads#show'
-  get 'reports/:reportType', to: 'reports#index'
+  get 'usage_reports/:reportType', to: 'usage_reports#index'
   get 'search_history/', to: 'search_history#index'
+  get 'deposit_history/:type', to: 'deposit_history#index'
+  get 'deposit_history/', to: 'deposit_history#index'
+  get 'collection_report/', to: 'collection_report#index'
+  get 'pages/:pageType', to: 'pages#index'
 
   # API routes
   scope '/api' do

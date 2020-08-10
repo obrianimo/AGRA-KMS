@@ -11,8 +11,6 @@ class SearchHistoryController < ApplicationController
     months_back = params[:query_range].nil? ? 3 : params[:query_range].to_i
     date_back = Date.today - months_back.months
     created_at = date_back.strftime('%Y-%m-%d')
-    Rails.logger.info("************************ created_at = " + created_at.inspect)
-    Rails.logger.info("************************ query string = SELECT query_params FROM searches WHERE query_params LIKE '%q:%' AND created_at > '#{created_at}' LIMIT 40;")
     results = Searches.find_by_sql("SELECT query_params FROM searches WHERE query_params LIKE '%q:%' AND created_at > '#{created_at}';")
     @queries = []
     @query_range = params[:query_range]
@@ -40,7 +38,6 @@ class SearchHistoryController < ApplicationController
       tmp_array << q if q.length > 0
     end
     sorted = tmp_array.sort_by! {|i| i.downcase}
-    Rails.logger.info("************************ sorted = " + sorted.inspect)
     #grouped = sorted.group_by{|e| e}.map{|k, v| [k, v.length]}.to_h
     #Rails.logger.info("************************ grouped = " + grouped.inspect)
     current = ""

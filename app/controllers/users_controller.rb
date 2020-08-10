@@ -2,10 +2,9 @@ class UsersController < ApplicationController
 #  include Hydra::UsersControllerBehavior
 #  before_action :authenticate_user!
   with_themed_layout 'dashboard'
-  before_action :authorize_admin, except: [:show, :user_pwd_change, :user_pwd_update]
-  
+  before_action :authenticate_user!, only: [:edit, :update, :follow, :unfollow, :toggle_trophy, :new, :create, :active_users]
+  before_action :authorize_admin, except: [:show, :user_pwd_change, :user_pwd_update]  
   prepend_before_action :find_user, except: [:index, :search, :active_users, :notifications_number, :new, :create, :admin_edit, :admin_update, :destroy, :admin_pwd, :admin_pwd_update, :user_pwd_change, :user_pwd_update]
-  before_action :authenticate_user!, only: [:edit, :update, :follow, :unfollow, :toggle_trophy, :new, :create]
   
   # users need to access their profile pages, so we don't authorize_admin on :show.
   # but we don't want users accessing other people's profile pages via url manipulation

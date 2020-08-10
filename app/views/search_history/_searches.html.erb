@@ -16,11 +16,11 @@
   </div>
   <div class="col-12 col-sm-12 col-lg-10" style="">
 	<% if @queries != nil %>
-       <div class="col-8 col-sm-8 col-lg-8" style="border-bottom:2px solid #ddd; text-align: center">
-			Query Term
+       <div class="col-8 col-sm-8 col-lg-8" style="border-bottom:2px solid #ddd; text-align: left">
+			<strong>Search Term</strong>
 	   </div>
        <div class="col-3 col-sm-3 col-lg-3" style="border-bottom:2px solid #ddd; text-align: center;">
-			Count
+			<strong>Count</strong>
 	   </div>
 	   <div class="col-1 col-sm-1 col-lg-1"></div>
 	  <% @queries.each do |q| %>

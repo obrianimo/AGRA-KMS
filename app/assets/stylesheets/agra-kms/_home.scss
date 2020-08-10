@@ -273,6 +273,9 @@ div#announcement {
 #forgot-link {
 	z-index: 10;
 }
+a#forgot-link:visited {
+	color: #1caade !important;
+}
 #login_btn:hover {
 	background-color: #cf7c00 !important;
 }

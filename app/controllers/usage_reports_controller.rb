@@ -1,4 +1,4 @@
-class ReportsController < ApplicationController
+class UsageReportsController < ApplicationController
 
   require "csv"
 

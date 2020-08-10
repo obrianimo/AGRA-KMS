@@ -30,16 +30,43 @@
     <%= menu.nav_link(hyrax.admin_stats_path) do %>
       <span class="fa fa-pie-chart"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.statistics') %></span>
     <% end %>
+
+
 	<li>
-		<a href="/reports/usage_stats">
-			<span class="fa fa-bar-chart"></span> 
-			<span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.file_views') %></span>
+	    <a role="button" class="collapse-toggle collapsed" data-toggle="collapse" href="#collapseKMSReports" aria-expanded="false" aria-controls="collapseKMSReports">
+		  <span class="fa fa-bar-chart"></span> <span>KMS Reports</span>
 		</a>
+		<ul class="nav nav-pills nav-stacked collapse" id="collapseKMSReports" aria-expanded="false" style="height: 0px;">
+	        <li>
+	        	<a href="/collection_report">
+	        		<span class="fa fa-copy"></span> 
+	        		<span class="sidebar-action-text">Collection Details</span>
+	        	</a>
+	        </li>
+	        <li>
+	        	<a href="/deposit_history">
+	        		<span class="fa fa-upload"></span> 
+	        		<span class="sidebar-action-text">Deposit History</span>
+	        	</a>
+	        </li>
+	        <li>
+	        	<a href="/usage_reports/usage_stats">
+	        		<span class="fa fa-binoculars"></span> 
+	        		<span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.file_views') %></span>
+	        	</a>
+	        </li>
+	        <li>
+	        	<a href="/search_history">
+	        		<span class="fa fa-search"></span> 
+	        		<span class="sidebar-action-text">Search History</span>
+	        	</a>
+	        </li>
+	    </ul>
 	</li>
-	<li>
-		<a href="/search_history">
-			<span class="fa fa-search"></span> 
-			<span class="sidebar-action-text">Search History</span>
-		</a>
-	</li>
+    
+
+
+
+
+
   <% end %>

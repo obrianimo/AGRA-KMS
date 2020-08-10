@@ -149,5 +149,17 @@ module DisplayHelper
     end
     return str
   end
+  
+  def get_user_name(email)
+    user = User.find_by(email: email)
+    if user.display_name.present?
+      return user.display_name
+    end
+    return email
+  end
 
+  def get_user_list
+    @users = User.all
+    return @users
+  end
 end
