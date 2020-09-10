@@ -30,7 +30,9 @@ class UsageReportsController < ApplicationController
     
     limit = " limit 0, " + per_page.to_s
     
-    if params[:page].present?
+    if per_page == -1
+      limit = ""
+    elsif params[:page].present?
       start_at = ((params[:page].to_i - 1) * per_page)   
       limit = " limit " + start_at.to_s + " , " + per_page.to_s
     end
@@ -196,5 +198,26 @@ class UsageReportsController < ApplicationController
     	end
     	return prev_string + first_two + page_list + last_two + next_string
     end
+  end
+
+  def download_report
+    public_usage = get_view_and_download_history(-1)
+    tempfile = Tempfile.new("temp_report_file_#{Time.now.strftime('%m-%d-%Y')}.csv") 
+    file_name = "usage_report_#{Time.now.strftime('%m-%d-%Y')}.csv"
+    CSV.open(tempfile.path, "w") do |csv|
+      csv << ["Usge Report", Date.today]
+      csv <<  ["Title", "Views", "Last View", "Downloads", "Last Download"]
+      public_usage.each do |u|
+        last_viewed = u.last_viewed_at.present? ? u.last_viewed_at.to_date.strftime("%d %B %Y") : ""
+        downloads = u.downloads.present? ? u.downloads : 0
+        last_download = u.last_downloaded_at.present? ? u.last_downloaded_at.to_date.strftime("%d %B %Y") : ""
+        csv << [u.title, u.views, last_viewed, downloads, last_download]
+      end
+    end
+    
+    send_file tempfile.path, :type => 'text',
+                        :disposition => 'attachment',
+                        :filename => file_name
+    tempfile.close
   end
 end

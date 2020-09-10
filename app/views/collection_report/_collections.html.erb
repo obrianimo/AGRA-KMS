@@ -4,90 +4,129 @@
     <label class="sr-only">Collections Report</label>
   </div>
   <div class="col-12 col-sm-12 col-lg-10">
-	<form id="collection_rept_form" method="get" action="/collection_report/" class="form-search" style="background-color:#fff">
+	<a id="download_collections" class="btn btn-primary pull-right pr-btn" href="/collection_report/download_report">Download collections report</a>
+	<form id="collection_rept_form" method="get" action="/collection_report/" class="form-search rpt-form">
 	  <div class="well">
 	    <label>Report type</label>
-	    <select id="query_type" name="query_type" autocomplete="off" onchange="this.form.submit()" style="margin: 0 0 12px 3px;">
+	    <select id="query_type" name="query_type" autocomplete="off" class="rpt-select">
 	      <option value="summary" <% if @query_type == "summary" %>selected="selected"<% end %>>Collections summary</option>
 	  	<option value="detailed" <% if @query_type == "detailed" %>selected="selected"<% end %>>Collections detailed</option>
 	    </select>
+        <br/>
+        <span id="select_collect" <% if @query_type == "detailed" %>style="display:block"<% else %>style="display:none"<% end %>>
+		<label style="margin-left:14px">Collection</label>
+		  <select id="collection_list" name="collect" autocomplete="off" style="margin-left:3px">
+		  	<option value="">Select....</option>
+		  	<% @titles.each do |c|%>
+		  		<option value="<%=c%>"><%=c%></option>
+		  	<% end %>
+		  </select>
+		</span>
 	  </div>
     </form>
   </div>
   <div class="col-12 col-sm-12 col-lg-10" style="">
     <% if @collections != nil %>
-      <div class="row" style="margin-top:6px">
-        <div class="col-4 col-sm-4 col-lg-4" style="border-bottom:2px solid #ddd;">
-	  		<strong>Name</strong>
-	    </div>
-        <div class="col-1 col-sm-1 col-lg-1" style="border-bottom:2px solid #ddd;padding-left: 10px;">
-	  		<strong>Items</strong>
-	    </div>
-        <div class="col-3 col-sm-3 col-lg-3" style="border-bottom:2px solid #ddd;">
-	  		<strong>Created by</strong>
-	    </div>
-        <div class="col-2 col-sm-2 col-lg-2" style="border-bottom:2px solid #ddd;">
-	  		<strong>Created</strong>
-	    </div>
-        <div class="col-2 col-sm-2 col-lg-2" style="border-bottom:2px solid #ddd;">
-	  		<strong>Updated</strong>
-	    </div>
-	  </div>
-	    <% if @num_found <= @per_page.to_i %>
-	      <% start = 0 %>
-	      <% finish = -1 %>
-	    <% else %> 
-	      <% start = @start_at.to_i %>
-	      <% finish = (@start_at.to_i + @per_page - 1)%>
-	    <% end %>
-	    <% @collections[start..finish].each do |c| %>
-	      <div class="row" style="margin-top:6px">
-	  	    <div class="col-4 col-sm-4 col-lg-4" style="margin-top:5px"><%=c['title']%></div>
-	  	    <div class="col-1 col-sm-1 col-lg-1" style="text-align: center"><%=c['item_count']%></div>
-	  	    <div class="col-3 col-sm-3 col-lg-3" style="text-align: left"><%=c['creator']%></div>
-	  	    <div class="col-2 col-sm-2 col-lg-2" style="text-align: left"><%=c['created'][0..9]%></div>
-	  	    <div class="col-2 col-sm-2 col-lg-2" style="text-align: left"><%=c['modified'][0..9]%></div>
-	      </div>
-		  <%if @query_type == "detailed" && c['item_count'].to_i > 0%>
-	        <div class="row" style="margin-top:2px">
-		      <% count = 0 %>
-	          <% c['items'].each do |i| %>
-	  	      <div class="col-5 col-sm-5 col-lg-5" style="text-align: right;padding-right:0;">
-		        <% if count == 0 %><strong>Titles</strong><% end %></div>
-	            <div class="col-7 col-sm-7 col-lg-7" style="text-align: left;margin-bottom:8px;">
-	              <%= i.title[0] %>
-	            </div>
-	            <% count = count + 1%>
-	          <% end %>
+      <% if @query_type == "detailed"%>
+	    <h4 style="margin:0 0 15px -15px"><%= @selected_collection%></h4>
+        <div class="row" style="margin-bottom:10px">
+	      <div class="col-6 col-sm-6 col-lg-6"><strong>Created by:</strong> <%= @collections[0]['creator'] %></div>
+		  <div class="col-6 col-sm-6 col-lg-6"><strong>Created on:</strong> <%= @collections[0]['created']%></div>
+	      <div class="col-6 col-sm-6 col-lg-6"><strong>Total items:</strong> <%= @collections[0]['item_count']  %></div>
+		  <div class="col-6 col-sm-6 col-lg-6"><strong>Last update:</strong> <%= @collections[0]['modified']%></div>
+        </div>
+        <% if @items.present? %>
+          <div class="row" style="margin-top:6px">
+            <div class="col-6 col-sm-6 col-lg-6" style="border-bottom:2px solid #ddd;">
+	      		<strong>Items in collection</strong>
 	        </div>
-		  <% end %>
+            <div class="col-3 col-sm-3 col-lg-3" style="border-bottom:2px solid #ddd;">
+	      		<strong>Deposited by</strong>
+	        </div>
+            <div class="col-2 col-sm-2 col-lg-2" style="border-bottom:2px solid #ddd;">
+	      		<strong>Uploaded</strong>
+	        </div>
+	      </div>
+	      <% @collections[0]['items'].sort_by {|d| d['title'][0]}.each do |c| %>
+	        <div class="row" style="margin-top:6px">
+	    	    <div class="col-6 col-sm-6 col-lg-6" style="margin-top:5px"><%=c['title'][0]%></div>
+	    	    <div class="col-3 col-sm-3 col-lg-3" style="margin-top:5px"><%=c['depositor']%></div>
+	    	    <div class="col-2 col-sm-2 col-lg-2" style="margin-top:5px"><%=c['date_uploaded'].to_s[0..9]%></div>
+	        </div>
+	      <% end %>
 	    <% end %>
-	    <% if @num_found > @per_page.to_i %>
-          <% next_start = @start_at.to_i + @per_page.to_i%>
-          <% prev_start = @start_at.to_i - @per_page.to_i%>
-	      <% start = 0 %>
-	      <% finish = -1 %>
-	      <div class="row" style="margin-top:16px">
-		      <div class="col-5 col-sm-5 col-lg-5">
-		        <%if @start_at.to_i <= 0 %>
-		          &lt;&lt; Previous
-		        <% else %>
-		          <a href="/collection_report?query_type=<%=@query_type%>&start=<%= prev_start %>">
-			        &lt;&lt; Previous
-			      </a>
-			    <% end %> | 
-		        <%if @num_found.to_i > @start_at.to_i + @per_page.to_i %>
-		          <a href="/collection_report?query_type=<%=@query_type%>&start=<%= next_start %>">
-			         Next &gt;&gt;
-			      </a>
-		        <% else %>
-		          Next &gt;&gt;
-		        <% end %>
-		      </div>
-          </div>
-	    <% end %> 
-	
+      <% else %>
+        <div class="row" style="margin-top:6px">
+          <div class="col-4 col-sm-4 col-lg-4" style="border-bottom:2px solid #ddd;">
+	    		<strong>Collection name</strong>
+	      </div>
+          <div class="col-1 col-sm-1 col-lg-1" style="border-bottom:2px solid #ddd;padding-left: 10px;">
+	    		<strong>Items</strong>
+	      </div>
+          <div class="col-3 col-sm-3 col-lg-3" style="border-bottom:2px solid #ddd;">
+	    		<strong>Created by</strong>
+	      </div>
+          <div class="col-2 col-sm-2 col-lg-2" style="border-bottom:2px solid #ddd;">
+	    		<strong>Created</strong>
+	      </div>
+          <div class="col-2 col-sm-2 col-lg-2" style="border-bottom:2px solid #ddd;">
+	    		<strong>Updated</strong>
+	      </div>
+	    </div>
+	      <% if @num_found <= @per_page.to_i %>
+	        <% start = 0 %>
+	        <% finish = -1 %>
+	      <% else %> 
+	        <% start = @start_at.to_i %>
+	        <% finish = (@start_at.to_i + @per_page - 1)%>
+	      <% end %>
+	      <% @collections[start..finish].each do |c| %>
+	        <div class="row" style="margin-top:6px">
+	    	    <div class="col-4 col-sm-4 col-lg-4" style="margin-top:5px"><%=c['title']%></div>
+	    	    <div class="col-1 col-sm-1 col-lg-1" style="text-align: center"><%=c['item_count']%></div>
+	    	    <div class="col-3 col-sm-3 col-lg-3" style="text-align: left"><%=c['creator']%></div>
+	    	    <div class="col-2 col-sm-2 col-lg-2" style="text-align: left"><%=c['created']%></div>
+	    	    <div class="col-2 col-sm-2 col-lg-2" style="text-align: left"><%=c['modified']%></div>
+	        </div>
+	        <%if @query_type == "detailed" && c['item_count'].to_i > 0%>
+	          <div class="row" style="margin-top:2px">
+	            <% count = 0 %>
+	            <% c['items'].each do |i| %>
+	    	      <div class="col-5 col-sm-5 col-lg-5" style="text-align: right;">
+	              <% if count == 0 %><strong>Titles</strong><% end %></div>
+	              <div class="col-7 col-sm-7 col-lg-7" style="text-align: left;margin-bottom:8px;">
+	                <%= i.title[0] %>
+	              </div>
+	              <% count = count + 1%>
+	            <% end %>
+	          </div>
+	        <% end %>
+	      <% end %>
+	      <% if @num_found > @per_page.to_i %>
+            <% next_start = @start_at.to_i + @per_page.to_i%>
+            <% prev_start = @start_at.to_i - @per_page.to_i%>
+	        <% start = 0 %>
+	        <% finish = -1 %>
+	        <div class="row" style="margin-top:16px">
+	            <div class="col-5 col-sm-5 col-lg-5">
+	              <%if @start_at.to_i <= 0 %>
+	                &lt;&lt; Previous
+	              <% else %>
+	                <a href="/collection_report?query_type=<%=@query_type%>&start=<%= prev_start %>">
+	      	        &lt;&lt; Previous
+	      	      </a>
+	      	    <% end %> | 
+	              <%if @num_found.to_i > @start_at.to_i + @per_page.to_i %>
+	                <a href="/collection_report?query_type=<%=@query_type%>&start=<%= next_start %>">
+	      	         Next &gt;&gt;
+	      	      </a>
+	              <% else %>
+	                Next &gt;&gt;
+	              <% end %>
+	            </div>
+            </div>
+	      <% end %> 
+	  <% end %>
 	<% end %>
   </div>
-
 </div>

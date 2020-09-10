@@ -1,17 +1,20 @@
-<div class="col-12 col-sm-12 col-lg-10">
+<div class="col-12 col-sm-12 col-lg-10" style="margin-bottom:30px">
   <div class="main-header">
     <h2>Search History</h2>
+    <label class="sr-only">Search History</label>
   </div>
   <div class="col-12 col-sm-12 col-lg-10">
-	  <form method="get" action="search_history" class="well form-search" style="background-color:#fff">
-	    <label class="sr-only">Search History</label>
+	  <a id="download_collections" class="btn btn-primary pull-right pr-btn" href="/search_history/download_report">Download search report</a>
+	  <form method="get" action="search_history" class="form-search rpt-form">
+		<div class="well">
 		<label>20 most popular queries in the last</label>
-		<select name="query_range" onchange="this.form.submit()" autocomplete="off">
+		<select name="query_range" onchange="this.form.submit()" autocomplete="off" class="rpt-select">
 			<option id="three-months" value="3" <% if @query_range.nil? || @query_range == '3' %> selected="selected"<% end %>>Three months</option>
 			<option id="six-months" value="6" <% if @query_range == '6' %> selected="selected"<% end %>>Six months</option>
 			<option id="nine-months" value="9" <% if @query_range == '9' %> selected="selected"<% end %>>Nine months</option>
 			<option id="year" value="12" <% if @query_range == '12' %> selected="selected"<% end %>>Year</option>
 		</select>
+		</div>
 	  </form>
   </div>
   <div class="col-12 col-sm-12 col-lg-10" style="">

@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   with_themed_layout 'dashboard'
   before_action :authenticate_user!, only: [:edit, :update, :follow, :unfollow, :toggle_trophy, :new, :create, :active_users]
   before_action :authorize_admin, except: [:show, :user_pwd_change, :user_pwd_update]  
-  prepend_before_action :find_user, except: [:index, :search, :active_users, :notifications_number, :new, :create, :admin_edit, :admin_update, :destroy, :admin_pwd, :admin_pwd_update, :user_pwd_change, :user_pwd_update]
+  prepend_before_action :find_user, except: [:index, :search, :active_users, :notifications_number, :new, :create, :admin_edit, :admin_update, :destroy, :admin_pwd, :admin_pwd_update, :user_pwd_change, :user_pwd_update, :download_report]
   
   # users need to access their profile pages, so we don't authorize_admin on :show.
   # but we don't want users accessing other people's profile pages via url manipulation
@@ -123,6 +123,25 @@ class UsersController < ApplicationController
       end
     end
     render :active_users
+  end
+
+  def download_report
+    tempfile = Tempfile.new("temp_report_file_#{Time.now.strftime('%m-%d-%Y')}.csv") 
+    raw_users =  User.all
+    users = raw_users.sort_by {|d| d.user_key}
+    file_name = "user_report_#{Time.now.strftime('%m-%d-%Y')}.csv"
+    CSV.open(tempfile.path, "w") do |csv|
+      csv << ["User Report", Date.today]
+      csv <<  ["Email", "Name", "Created on", "Last login"]
+      users.each do |u|
+        csv << [u.user_key, u.display_name, u.created_at.to_s[0..9], u.last_request_at.to_s[0..9]]
+      end
+    end
+    
+    send_file tempfile.path, :type => 'text',
+                        :disposition => 'attachment',
+                        :filename => file_name
+    tempfile.close
   end
 
   protected

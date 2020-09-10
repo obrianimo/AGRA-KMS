@@ -1,19 +1,23 @@
 <div class="col-12 col-sm-12 col-lg-10">
-	<div class="main-header">
+  <div class="main-header">
   	<h2>File Views and Downloads</h2>
+    <label class="sr-only">File Views and Downloads</label>
   </div>
   <div class="col-12 col-sm-12 col-lg-10" style="padding: 0">
-	  <form method="get" action="usage_stats" class="well form-search" style="background-color:#fff">
+	<a id="download_collections" class="btn btn-primary pull-right pr-btn" href="/usage_reports_download/download_report">Download usage report</a>
+	<form method="get" action="usage_stats" class="form-search rpt-form" style="background-color:#fff">
+	  <div class="well">
 	    <label class="sr-only">Public Views and Downloads</label>
 		<label>File title</label>
 	    <%= text_field_tag :title, params[:title], class: "q", placeholder: "Enter a full or partial title", size: '36', type: "search", id: "file_title" %>
 	    <%= hidden_field_tag :sort, params[:sort], id: 'fileview_sort' %>
 	    <%= render_hash_as_hidden_fields(params_for_search().except(:title, :sort, :qt, :page, :utf8)) %>
 	    <button type="submit" class="btn btn-primary" id="fileview_submit"> 
-	      <i class="glyphicon glyphicon-search"></i> Go
+	        <i class="glyphicon glyphicon-search"></i> Go
 	    </button>
-	  </form>
-	</div>
+	  </div>
+	</form>
+  </div>
 	<% if @public_usage != nil %>
 	<div aria-hidden="true" class="page_links">
 		<%= @top_navigation.html_safe %>

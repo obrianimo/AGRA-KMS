@@ -2,12 +2,12 @@
 class Collection < ActiveFedora::Base
   include ::Hyrax::CollectionBehavior
   # You can replace these metadata if they're not suitable
-
+  # self.indexer = Hyrax::CollectionIndexer
   self.indexer = Hyrax::CollectionWithBasicMetadataIndexer
 
-  # property :title_sort, predicate: ::RDF::URI.new('http://www.teeal.org/ns#collectionTitleSortField'), multiple: true do |index|
-  #   index.as :stored_searchable, :stored_sortable
-  # end
+  property :title_sort, predicate: ::RDF::URI.new('http://www.teeal.org/ns#collectionTitleSortField'), multiple: false do |index|
+     index.as :stored_searchable, :stored_sortable
+  end
 
   # include this at the end to prevent ActiveTriples::UndefinedPropertyError
   include Hyrax::BasicMetadata

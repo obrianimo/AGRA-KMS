@@ -26,3 +26,4 @@
 //= require groups_autocomplete
 //= require homepage
 //= require reporting
+//= require agra-collections

@@ -4,24 +4,25 @@
     <label class="sr-only">Deposit History</label>
   </div>
   <div class="col-12 col-sm-12 col-lg-10">
-	<form id="dep_history_form" method="get" action="/deposit_history/user/" class="form-search" style="background-color:#fff">
+	<a id="download_collections" class="btn btn-primary pull-right pr-btn" href="/deposit_report/download_report">Download deposit report</a>
+	<form id="dep_history_form" method="get" action="/deposit_history/user/" class="form-search rpt-form">
 	</form>
 	<div class="well">
 		<label>Report type</label>
-		<select id="report_type" name="report_type" autocomplete="off" style="margin: 0 0 12px 3px;">
+		<select id="report_type" name="report_type" autocomplete="off" class="rpt-select">
 			<option value="by_all_users" <% if @query_type == "depositor" %>selected="selected"<% end %>>Works by all users</option>
 			<option value="by_title" <% if @query_type == "work" %>selected="selected"<% end %>>Works by title</option>
 			<option value="by_user" <% if @query_type == "user" %>selected="selected"<% end %>>Works by individual user</option>
 		</select>
   		<br />
 		<span id="select_user" <% if @query_type == "user" %>style="display:block"<% else %>style="display:none"<% end %>>
-		<label>Select user</label>
-		  <select id="email" name="email" autocomplete="off" style="margin-left:7px;">
-		  	<option value=""></option>
-		  	<% users = get_user_list %>
-		  	<% users.each do |u|%>
-		  		<% name = u.display_name.present? ? u.display_name : u.email%>
-		  		<option value="<%=u.email%>" <% if u.email == @email%>selected="selected"<% end %>><%=name%></option>
+		<label style="margin-left:50px;">User</label>
+		  <select id="email" name="email" autocomplete="off" style="margin-left:3px;">
+		  	<option value="">Select....</option>
+		  	<%# users = get_user_list %>
+		  	<% @depositors.each do |u|%>
+		  		<% name = get_user_name(u) %>
+		  		<option value="<%=u%>"><%=name%></option>
 		  	<% end %>
 		  </select>
 		</span>
@@ -30,10 +31,10 @@
   <div class="col-12 col-sm-12 col-lg-10" style="">
 	<% if @docs != nil %>
       <% if @query_type == "user"%>
-		<h3 style="margin:0 0 15px -15px">Works Deposited by <%= @email%></h3>
+		<h4 style="margin:0 0 15px -15px">Works Deposited by <%= @email%></h4>
           <div class="dh-totals">
-	   		Total deposits: <%= @num_found %><br/>
-	   		Last Upload: <%= @last_upload %>
+	   		<strong>Total deposits:</strong> <%= @num_found %><br/>
+	   		<strong>Last Upload:</strong> <%= @last_upload %>
 	      </div>
 	    <div class="row" style="margin-top:6px">
           <div class="col-8 col-sm-8 col-lg-8" style="border-bottom:2px solid #ddd; text-align: left">
@@ -85,7 +86,7 @@
 		<h3 style="margin:0 0 15px -15px">Deposited Works by User</h3>
 	    <div class="row" style="margin-top:6px">
           <div class="col-4 col-sm-4 col-lg-4" style="border-bottom:2px solid #ddd; text-align: left;">
-		    <strong>Name / Email</strong>
+		    <strong>Depositor</strong>
 	      </div>
           <div class="col-5 col-sm-5 col-lg-5" style="border-bottom:2px solid #ddd; text-align: left">
 	   		<strong>Title</strong>
@@ -97,6 +98,7 @@
 		<% current = "" %>
 		<% deposit_count = 0 %>
 		<% total_count = 0 %>
+		<% first_depo = true %>
         <% if @num_found.to_i <= @per_page.to_i %>
           <% @docs.each do |d| %>
         	<% if d['depositor_ssim'][0] != current && !current.empty?%>
@@ -141,6 +143,8 @@
 		    	      <div class="col-3 col-sm-3 col-lg-3" style="background-color:#cdc">total deposits: <%= deposit_count %></div>
 	        	  </div>
 				  <% total_count = total_count + deposit_count %>
+			      <% depo_count = @docs.select { |x| x['depositor_ssim'][0] == d['depositor_ssim'][0]}.count %>
+	              <% break if total_count + depo_count > @per_page.to_i and first_depo == false %>
 		    	  <% deposit_count = 0 %>
 		    	<% end %>
 	        	<div class="row" <% if d['depositor_ssim'][0] != current %>style="margin-top:12px"<%else%>style="margin-top:6px"<%end%>>
@@ -158,6 +162,7 @@
 	              <% total_count = total_count + deposit_count %>
 		    	<% else %>
 		    	  <% current = d['depositor_ssim'][0]%>
+		          <% first_depo = false%>
 		    	<% end %>
 		    <% end %>
 	      <% end %>
@@ -193,7 +198,7 @@
 	   		<strong>Title</strong>
 	      </div>
           <div class="col-3 col-sm-3 col-lg-3" style="border-bottom:2px solid #ddd; text-align: left;">
-		    <strong>Name / Email</strong>
+		    <strong>Depositor</strong>
 	      </div>
           <div class="col-3 col-sm-3 col-lg-3" style="border-bottom:2px solid #ddd; text-align: left">
 	   		<strong>Date Uploaded</strong>

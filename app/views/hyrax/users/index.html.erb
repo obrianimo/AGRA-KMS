@@ -1,6 +1,7 @@
 <div id="search" class="user-management">
 	<ul class="breadcrumb"><li><a href="/?locale=en">Home</a></li><li><a href="/dashboard?locale=en">Dashboard</a></li></ul>
 	<%= render partial: 'search_form' %>
+	<a id="download_collections" class="btn btn-primary pull-right pr-btn" style="margin-top:-34px" href="/user_mgmt/download_report">Download user report</a>
 	<h1>User Accounts</h1>
 	<div class="user-totals">
 		Total users: <%= @users.size %>
@@ -17,6 +18,12 @@
 						<i id="name" style="<%=params[:sort].blank? ? 'color:#1caade' : params[:sort]== "email" ? 'color:#1caade' : params[:sort]== "name" ? '' : ''%>"></i>
 						<span style="<%=params[:sort].blank? ? 'color:#1caade' : params[:sort]== "email" ? 'color:#1caade' : params[:sort]== "name" ? '' : ''%>">Name</span>
 					</th>
+	                <th class="sorts">
+						<span><strong>Added on</strong></span>
+					</th>
+	                <th class="sorts">
+						<span><strong>Last log in</strong></span>
+					</th>
 					<th></th>
 					<th></th>
 	            </tr> 
@@ -25,7 +32,9 @@
 	            <% @users.each do |user| %> 
 	                <tr class="<%= cycle("","zebra") %>"> 
 	                   <td><a href="/user_mgmt/edit/<%= user.id %>"  ><%= user.user_key %><a></td>
-	                   <td ><%= user.display_name %></td> 
+		                   <td ><%= user.display_name %></td> 
+		                   <td ><%= user.created_at.to_s[0..9] %></td> 
+		                   <td ><%= user.last_request_at.to_s[0..9] %></td> 
 			        	<td><%= link_to raw('<i class="glyphicon glyphicon-lock" aria-hidden="true"></i>'), '/user_mgmt/pwd/' + user.id.to_s, title: 'Change password'%></td>
 			        	<td><%= link_to raw('<i class="glyphicon glyphicon-trash" aria-hidden="true"></i>'), '/user_mgmt/delete/' + user.id.to_s, title: 'Delete this user', method: :delete, data: { confirm: 'Are you sure?'}  %></td>
 	                </tr> 

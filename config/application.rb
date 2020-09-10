@@ -31,11 +31,10 @@ module AgraKms
           
     config.to_prepare do
       Hyrax::WorksControllerBehavior.prepend PrependedControllers::WorksControllerBehavior
-      # Hyrax::HomepageController.prepend PrependedControllers::HomepageController
-      # Hyrax::Dashboard::CollectionsController.prepend PrependedControllers::CollectionsController
-      # Hyrax::Forms::CollectionForm.prepend PrependedForms::CollectionForm
-      # Hyrax::CollectionPresenter.prepend PrependedPresenters::CollectionPresenter
-      # Hyrax::CollectionIndexer.prepend PrependedIndexers::CollectionIndexer
+      Hyrax::Dashboard::CollectionsController.prepend PrependedControllers::CollectionsController
+      Hyrax::Forms::CollectionForm.prepend PrependedForms::CollectionForm
+      Hyrax::CollectionPresenter.prepend PrependedPresenters::CollectionPresenter
+      Hyrax::CollectionSearchBuilder.prepend PrependedSearchBuilders::CollectionSearchBuilder
     end  
   end
 end

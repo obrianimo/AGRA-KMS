@@ -40,12 +40,17 @@ Rails.application.routes.draw do
   get '/user_mgmt/pwd_change/:user_id', controller: 'users', to: 'users#user_pwd_change' 
   patch '/user_mgmt/user_pwd_update', controller: 'users', to: 'users#user_pwd_update'
   get '/user_mgmt/active', controller: 'users', to: 'users#active_users' 
+  get '/user_mgmt/download_report', controller: 'users', to: 'users#download_report' 
   get 'file_downloads/:id', to: 'file_downloads#show'
   get 'usage_reports/:reportType', to: 'usage_reports#index'
+  get 'usage_reports_download/download_report', to: 'usage_reports#download_report'
   get 'search_history/', to: 'search_history#index'
+  get 'search_history/download_report', to: 'search_history#download_report'
   get 'deposit_history/:type', to: 'deposit_history#index'
   get 'deposit_history/', to: 'deposit_history#index'
+  get 'deposit_report/download_report', to: 'deposit_history#download_report'
   get 'collection_report/', to: 'collection_report#index'
+  get 'collection_report/download_report', to: 'collection_report#download_report'
   get 'pages/:pageType', to: 'pages#index'
 
   # API routes
