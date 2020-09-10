@@ -32,8 +32,12 @@ class DepositHistoryController < ApplicationController
     @docs = docs.sort_by! {|d| [d['depositor_ssim'][0], d['system_create_dtsi']]} if @query_type == "depositor"
     @docs = docs.sort_by! {|d| d['title_tesim'][0]} if @query_type == "work"
     if @query_type == "user"
-      @docs = docs 
-      @last_upload = @docs.first['system_create_dtsi'].present? ? @docs.first['system_create_dtsi'][0..9] : "n/a"
+      @docs = docs
+      if @docs.first.present?
+        @last_upload = @docs.first['system_create_dtsi'].present? ? @docs.first['system_create_dtsi'][0..9] : "n/a"
+      else
+        @last_upload = ""
+      end
     end
     @num_found = result["response"]["numFound"]
   end

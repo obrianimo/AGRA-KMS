@@ -152,7 +152,7 @@ module DisplayHelper
   
   def get_user_name(email)
     user = User.find_by(email: email)
-    if user.display_name.present?
+    if !user.nil? && user.display_name.present?
       return user.display_name
     end
     return email
@@ -161,5 +161,9 @@ module DisplayHelper
   def get_user_list
     @users = User.all
     return @users
+  end
+
+  def user_count
+    return User.count - 1
   end
 end
