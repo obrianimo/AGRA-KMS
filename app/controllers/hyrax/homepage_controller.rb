@@ -80,8 +80,8 @@ class Hyrax::HomepageController < ApplicationController
 
   private
 
-    # Return 50 collections
-    def collections(rows: 50)
+    # Return 150 collections
+    def collections(rows: 150)
       builder = Hyrax::CollectionSearchBuilder.new(self)
                                               .rows(rows)
       response = repository.search(builder)
@@ -90,10 +90,11 @@ class Hyrax::HomepageController < ApplicationController
       []
     end
 
-    # # Return 5 documents
+    # # Return n documents -- defined in the config/application.rb file
     def recent
       # grab any recent documents
-      (_, @recent_documents) = search_results(q: '', sort: sort_field, rows: 5)
+      recent_update_count = Rails.configuration.recent_update_count
+      (_, @recent_documents) = search_results(q: '', sort: sort_field, rows: recent_update_count)
     rescue Blacklight::Exceptions::ECONNREFUSED, Blacklight::Exceptions::InvalidRequest
       @recent_documents = []
     end

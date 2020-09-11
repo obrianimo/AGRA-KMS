@@ -28,6 +28,9 @@ module AgraKms
     config.generators do |g|
       g.test_framework :rspec, :spec => true
     end
+    
+    # Number of recent updates to display on the homepage
+    config.recent_update_count = 6
           
     config.to_prepare do
       Hyrax::WorksControllerBehavior.prepend PrependedControllers::WorksControllerBehavior
