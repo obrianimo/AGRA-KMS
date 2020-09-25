@@ -1,5 +1,6 @@
 class UserRolesController < ApplicationController
   include Hydra::RoleManagement::UserRolesBehavior
+  with_themed_layout 'dashboard'
   
   def destroy
     authorize! :remove_user, @role

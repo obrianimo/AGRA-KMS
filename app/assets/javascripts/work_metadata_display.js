@@ -63,11 +63,31 @@ var manageWorkMetadata = {
 
 };
 
+var setDownloadsLink = {
+  onLoad: function() {
+      workId = $(location).attr("href").split('/').pop();
+      if ( workId.indexOf("?") > -1 ) {
+          workId = workId.substring(0,workId.indexOf("?"));
+      }
+      newHref = $('a#file_download').attr('href').replace("downloads","file_downloads");
+      //if ( newHref.indexOf("?") > -1 ) {
+      //    newHref += "&workid=" + workId;
+      //}
+      //else {
+      //    newHref += "?workid=" + workId
+      //}
+      $('a#file_download').attr("href",newHref);
+  }
+};
+
 Blacklight.onLoad( function() {
-    $('body.generic_works_new').each(function() {
-		manageWorkMetadata.onLoad();
-    })
-    $('body.generic_works_edit').each(function() {
-		manageWorkMetadata.onLoad();
-    })
+    if ( $('body').prop('className').indexOf("generic_works_show") >= 0 ) {
+        setDownloadsLink.onLoad();  
+    }
+    if ( $('body').prop('className').indexOf("generic_works_new") >= 0 ) {
+        manageWorkMetadata.onLoad();  
+    }
+    if ( $('body').prop('className').indexOf("generic_works_edit") >= 0 ) {
+        manageWorkMetadata.onLoad();  
+    }
 });

@@ -24,12 +24,24 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable, :rememberable, 
          :trackable, :validatable, :timeoutable
 
-  
+  Warden::Manager.before_logout do |user, auth, opts|
+    user.update_attribute(:logged_in, false)
+  end
   validates_presence_of :password, :password_confirmation, on: :create
   validates_confirmation_of :password, on: :create
   validates_presence_of :password, :password_confirmation, on: :update, if: :validate_pwd
   validates_confirmation_of :password, on: :update, if: :validate_pwd
 #  validate :pwd_update_presence
+
+  class << self
+    def currently_logged_in(logged_in = true)
+      where(logged_in: logged_in).where("last_request_at > ?", Time.zone.now - timeout_in.seconds)
+    end
+  end
+  
+  def currently_logged_in?
+    logged_in? && last_request_at.present? && !timedout?(last_request_at)
+  end
   
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for

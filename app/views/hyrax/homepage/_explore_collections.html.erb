@@ -1,0 +1,49 @@
+<% coll_array  = [] %>
+<% height  = "" %>
+<% 
+  if collections.present? && collections.size > 12 
+	height += "height: 690px;"
+  end
+%>
+<% collections.each do |collection| %>
+  <% item_count = ActiveFedora::Base.where("member_of_collection_ids_ssim:#{collection.id} AND generic_type_sim:Work").accessible_by(current_ability).count %>
+  <% 
+	tmp_hash  = {}
+	tmp_hash["id"] = collection.id
+	tmp_hash["label"] = collection.title_or_label
+	tmp_hash["items"] = item_count
+	tmp_hash["updated"] = collection.modified_date
+	coll_array << tmp_hash
+  %>
+<% end %>
+
+
+
+<% if coll_array.size > 0 %>
+<div id="collections-list-heading-container">
+  <div id="collections-list-heading">
+	Our Collections
+  </div>
+</div>
+<div class="collections-list" style="<%= height %>">
+  <% coll_array.sort_by { |hsh| hsh["label"] }.each do |collection| %>
+    <div class="row margin-zero">
+	  <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 collections-list-sub-left">
+		<% if current_user %>
+	      <a class="collections-list-link"  href="/catalog?f[member_of_collection_ids_ssim][]=<%= collection['id'] %>&locale=en&q=&search_field=all_fields" >
+		    <%= collection["label"]%>
+		  </a>
+		<% else %>
+	      <%= collection["label"]%>
+		<% end %>
+	  </div>
+	  <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 collections-list-sub-right">
+	    <p class="collections-list-p margin-zero" ><span class="collections-list-label">Total items:</span> <%= collection["items"] %>
+		<p class="collections-list-p"><span class="collections-list-label">Updated:</span> <%= collection["updated"]%></p>
+	  </div>
+	</div>
+  <% end %>
+</div>
+<div id="collections-list-closer">	  
+</div>
+<% end %>

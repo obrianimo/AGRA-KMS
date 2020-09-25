@@ -6,10 +6,9 @@ class Hyrax::HomepageController < ApplicationController
   
   before_action :set_commodities_list
   before_action :set_geo_location_list
-  # before_action :set_value_chain_list
-  before_action :set_collection_list
+  before_action :set_value_chain_list
   before_action :set_language_list
-  before_action :set_collection_list
+  # before_action :set_collection_list
   
   def set_commodities_list
     commodities_list = get_facet_list('commodities')
@@ -29,25 +28,25 @@ class Hyrax::HomepageController < ApplicationController
     end
   end
 
-#   def set_value_chain_list
-#       value_chain_list = get_facet_list('value_chain')
-#       if value_chain_list == 0
-#         session[:value_chain_list] = []
-#       else
-#         session[:value_chain_list] = value_chain_list
-#       end
-#   end
+   def set_value_chain_list
+       value_chain_list = get_facet_list('value_chain')
+       if value_chain_list == 0
+         session[:value_chain_list] = []
+       else
+         session[:value_chain_list] = value_chain_list
+       end
+   end
 
   # TODO: Needs work to dislpay collections
-  def set_collection_list
-    # byebug  
-    collection_list = get_facet_list('member_of_collections')
-    if collection_list == 0
-      session[:collection_list] = []
-    else
-      session[:collection_list] = collection_list
-    end
-  end
+#  def set_collection_list
+#    # byebug  
+#    collection_list = get_facet_list('member_of_collections')
+#    if collection_list == 0
+#      session[:collection_list] = []
+#    else
+#      session[:collection_list] = collection_list
+#    end
+#  end
 
   def set_language_list
     language_list = get_facet_list('language')
@@ -81,8 +80,8 @@ class Hyrax::HomepageController < ApplicationController
 
   private
 
-    # Return 5 collections
-    def collections(rows: 5)
+    # Return 150 collections
+    def collections(rows: 150)
       builder = Hyrax::CollectionSearchBuilder.new(self)
                                               .rows(rows)
       response = repository.search(builder)
@@ -91,9 +90,11 @@ class Hyrax::HomepageController < ApplicationController
       []
     end
 
+    # # Return n documents -- defined in the config/application.rb file
     def recent
       # grab any recent documents
-      (_, @recent_documents) = search_results(q: '', sort: sort_field, rows: 4)
+      recent_update_count = Rails.configuration.recent_update_count
+      (_, @recent_documents) = search_results(q: '', sort: sort_field, rows: recent_update_count)
     rescue Blacklight::Exceptions::ECONNREFUSED, Blacklight::Exceptions::InvalidRequest
       @recent_documents = []
     end
@@ -111,7 +112,7 @@ class Hyrax::HomepageController < ApplicationController
       elsif type == 'language'
         facet_field = 'language_sim'
       else
-        facet_field = 'member_of_collections_ssim'
+        facet_field = 'value_chain_sim'
       end
       uri = URI.parse(ENV['SOLR_URL'] + '/select?facet=on&q=*:*&rows=0&wt=json&indent=true&facet=true&facet.field=' + facet_field + '&facet.sort=index&facet.limit=-1&qt=standard')
       http = Net::HTTP.new(uri.host, uri.port)
@@ -128,10 +129,8 @@ class Hyrax::HomepageController < ApplicationController
           result = body[:facet_counts][:facet_fields][:commodities_sim]
         elsif type == 'based_near'
           result = body[:facet_counts][:facet_fields][:based_near_sim]
-        # elsif type == 'value_chain'
-        #   result = body[:facet_counts][:facet_fields][:value_chain_sim]
-        elsif type == 'member_of_collections'
-          result = body[:facet_counts][:facet_fields][:member_of_collections_ssim]
+        elsif type == 'value_chain'
+          result = body[:facet_counts][:facet_fields][:value_chain_sim]
         else
           result = body[:facet_counts][:facet_fields][:language_sim]
         end 

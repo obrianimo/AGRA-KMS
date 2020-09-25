@@ -1,5 +1,5 @@
 <% unless params[:controller].include?("users") || params[:controller].include?("roles")%>
-<div class="container-fluid serachform-container">
+<div class="container-fluid searchform-container">
   <div class="container">
     <div class="row">
       <div class="searchbar-left col-sm-7 col-md-6">
@@ -7,12 +7,27 @@
       </div>
     </div>
   </div>
+  <div id="menu-links-controls">
+ 	<span><a href="/">Home</a></span>
+	<% if current_user %>
+	<span class="menu-links-separator">|</span>
+	  <span><a href="/dashboard">Dashboard</a></span>
+	  <% if params[:controller] == "hyrax/collections"%>
+	    <span class="menu-links-separator">|</span>
+	    <span><a href="/dashboard/collections">Collections</a></span>
+	  <% elsif params[:controller] == "hyrax/generic_works"%>
+	    <span class="menu-links-separator">|</span>
+		<span><a href="/dashboard/works">Works</a></span>
+	  <% end %>
+	<% end %>
+	<span class="menu-links-separator">|</span>
+	<span><a href="/pages/help">Search Help</a></span>
+	<% if !current_user %>
+      <span class="menu-links-separator">|</span>
+      <span><a href="/pages/about">About KMS</a></span>
+      <span class="menu-links-separator">|</span>
+      <span><a href="mailto:kms@agra.org" title="contact us">Contact</a></span>
+	<% end %>
+  </div>
 </div>
-<% end %>
-<% if params[:controller].include?("roles")%>
-	<div class="masthead-padding" style="margin-left:30px">
-		<% if params[:action].include?("new")%>
-			<h2>New Role</h2>
-		<% end %>
-	</div>
 <% end %>

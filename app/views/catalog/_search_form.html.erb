@@ -1,3 +1,7 @@
+<%= javascript_tag do %>
+	var solr_url = '<%= "#{ENV['SOLR_URL']}"%>'
+	var rails_root = '<%= "#{root_url}"%>'
+<% end %>
 <%= form_tag search_form_action, method: :get, id: "search-form-header", role: "search" do %>
   <%= render_hash_as_hidden_fields(search_state.params_for_search.except(:q, :search_field, :qt, :page, :utf8)) %>
   <%= hidden_field_tag :search_field, 'all_fields' %>
@@ -7,11 +11,8 @@
     <%= text_field_tag :q, current_search_parameters , class: "q form-control", id: "search-field-header", placeholder: t("hyrax.search.form.q.placeholder") %>
 
     <div class="input-group-btn">
-      <button type="submit" class="btn btn-primary" id="search-submit-header">
-        <%= t('hyrax.search.button.html') %>
-      </button>
       <% if current_user %>
-        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+        <button class="btn btn-default dropdown-toggle search-form-menu-btn" type="button" data-toggle="dropdown">
           <span data-search-element="label"><%= t("hyrax.search.form.option.all.label_long", application_name: application_name) %></span>
           <span class="caret"></span>
         </button>
@@ -33,9 +34,12 @@
             <%= link_to t("hyrax.search.form.option.my_shares.label_long"), "#",
                 data: { "search-option" => hyrax.dashboard_shares_path, "search-label" => t("hyrax.search.form.option.my_shares.label_short") } %>
           </li>
-        <% end %>
+        </ul>
+      <% end %>
+      <button type="submit" class="btn btn-primary <% if !params[:controller].include? "homepage" %>resize-submit<% end %>" id="search-submit-header">
+        <%= t('hyrax.search.button.html') %>
+      </button>
 
-      </ul>
     </div><!-- /.input-group-btn -->
 
   </div><!-- /.input-group -->
