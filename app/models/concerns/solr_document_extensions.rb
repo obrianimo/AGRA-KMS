@@ -4,4 +4,5 @@ module SolrDocumentExtensions
   # include Permissions::Readable
 
   include SolrDocumentExtensions::GenericWork
+  include SolrDocumentExtensions::Collection
 end

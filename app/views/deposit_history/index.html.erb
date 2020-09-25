@@ -1,0 +1,19 @@
+<ul class="breadcrumb">
+	<li><a href="/?locale=en">Home</a></li>
+	<li><a href="/dashboard?locale=en">Dashboard</a></li>
+	<li class="active">Deposit History</li>
+</ul>
+<div>
+    <div class="row">
+      <div class="col-md-12">
+        <div id="main-flashes">
+          <div class="flash_messages">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+        <%= render :partial=>'deposits' %>
+    </div><!--rows-->
+</div><!--container-->

@@ -65,9 +65,72 @@ input.search-q {
 		font-size: 1.2em;
 	}
 }
+div.browse-option > ul.dropdown-menu {
+	right: 30px !important;
+	left: auto !important;
+	margin: 0 !important;
+	top: 75% !important;
+	min-width: 180px !important;
+	background-color: #e7f9ca !important;
+}
 .home-dropdown {
-  width:180px;
+	width:160px;
 	text-align:left;
+	margin:0;
+	padding: 0;
+	vertical-align: middle;
+	color:#e68a00 !important;
+	font-size:18px;
+	font-weight: 400;
+	&:hover {
+		color: #cf7c00;
+	}
+}
+div.browse-option > ul.dropdown-menu > li  {
+	position: relative;
+	background-color: #e7f9ca;
+	&:hover {
+		background-color: #e7f9ca;
+		color: #cf7c00;
+	}
+}
+div.browse-option > ul.dropdown-menu > li > a {
+	background-color: #e7f9ca;
+	&:hover {
+		background-color: #e7f9ca;
+	}
+}
+.dropdown-chevron {
+	position: absolute;
+	left: 4px;
+	top: 7px;
+	font-size: 12px;
+	display: none;
+}
+.browse-option {
+	margin: 18px 0 0 20px;
+	padding: 0 16px 0 0;
+	vertical-align: middle;
+	color: #e68a00;
+	font-size: 18px;
+	font-weight: 400;
+}
+#first-browse-option {
+	margin: 3px 0 0 18px;
+}
+.lower-browse-rows {
+	padding-left: 22px;
+	margin: 0 -18px;
+	background-color: rgba(73, 103, 44, 0.8) !important;
+}
+#last-browse-row {
+	padding-bottom: 22px;
+}
+#browse-image {
+	height: 140px;
+	position: absolute;
+	top: 104px;
+	left: 18px;
 }
 #masthead {
 /*    background-color: #fff !important;*/
@@ -91,10 +154,70 @@ div.home-flash {
 	margin-bottom: 4px;
 	font-size: 20px;
 }
+.home-collections-list {
+	float: left;
+	width: 36%;
+	margin: 50px 0 0 42px;
+    @media (max-width: 768px) {
+		margin-left: 18px;
+		width: 95%;
+		margin-top: 50px;
+    }
+}
+.home-recent-updates {
+	margin-left: 2%;
+	background-color: #fdf6d9;
+	width: 52%;
+	padding: 28px 22px;
+	float: left;
+	margin-top: -82px;
+	z-index: 1;
+	background-image: url(/assets/agra-kms/field.png);
+	background-repeat: no-repeat;
+	background-position: bottom;
+	background-size: 100% 95px;
+    @media (max-width: 768px) {
+		margin-left: 18px;
+		width: 95%;
+		margin-top: 50px;
+    }
+}
 #recent-updates-heading {
-	font-size: 28px;
-	margin-top: 20px;
-	margin-bottom: 10px;
+	font-size: 22px;
+	font-weight: 400;
+	margin-top: 7px;
+	margin-bottom: 20px;
+}
+#recent_docs {
+	margin-top: 22px;
+	margin-bottom: 56px;
+}
+.recent-item {
+	background: none !important;
+	h3 {
+		font-size: 15px;
+		margin-top: 8px
+	}
+	p {
+		font-size: 15px;
+	}
+	img {
+	    width: 52px !important;
+	    padding-right: 6px !important;
+	}
+}
+.recent-update-container p {
+    line-height: 14px;
+}
+#home-thumbnail-container {
+ text-align: center;
+ margin-top: 10px;
+}
+@media  (max-width: $screen-sm-min) {
+  #home-thumbnail-container {
+    text-align: center;
+ 	  margin-top: 4px;
+  }
 }
 #new-logo {
 	width: 64px;
@@ -123,4 +246,171 @@ div#announcement {
 .home_marketing_text {
 	color: #fff !important;
 	padding: 15px 0 15px 50px;
+}
+.home-login {
+	color: #fff;
+	font-size: 18px;
+}
+.home-login label {
+	font-weight: 400 !important;
+}
+#login-container {
+	border-radius: 8px;
+	z-index: 1;
+	position: relative;
+	background-color: rgba(73, 103, 44, 0.8);
+	padding: 8px 8px;
+	margin-top: 9px;
+}
+#login_btn {
+	margin: 0 0 0 15px;
+	z-index: 10;
+	background-color: #e68a00 !important;
+}
+#forgot-container {
+	margin: 20px 0 0 15px;
+}
+#forgot-link {
+	z-index: 10;
+}
+a#forgot-link:visited {
+	color: #1caade !important;
+}
+#login_btn:hover {
+	background-color: #cf7c00 !important;
+}
+.home-search {
+	/* margin-top: -10px; */
+	position: relative;
+	width: 100%;
+	height: 380px;
+	background-size: cover;
+	padding-top: 40px;
+	background-color: #B0D2B3;
+	/* background-position: left 2px; */
+    /* background-size: 459px 36px; */
+	background-image: url(/assets/agra-kms/AGRA_1142.jpg);
+	background-repeat: no-repeat;
+    
+}
+.search-text {
+	margin: 30px 0 0 60px;
+	padding: 0;
+}
+.search-text span {
+	color:#fff;
+	font-size:30px;
+	margin-top:80px;
+	font-weight: 400;
+}
+.browse-text {
+	margin: 0;
+	padding: 0;
+	vertical-align: middle;
+}
+.browse-text span {
+	color:#fff;
+	font-size:22px;
+	font-weight: 400;
+}
+.search-browse {
+	margin-left: 60px;
+	padding: 0;
+}
+#search-field-header {
+	font-size: 18px;
+	height: 44px;
+}
+#search-submit-header {
+	font-size: 20px;
+	padding: 7px 12px;
+}
+#menu-links-home-empty {
+	font-size: 16px;
+	position: absolute;
+	bottom: -32px;
+	left: 60px;
+	z-index: 10;
+    @media (max-width: 768px) {
+		bottom: -218px;
+		left: 30%;
+    }
+}
+.home-content {
+	position: relative;
+	margin-bottom: 40px;
+}
+#browse-outer-container {
+	position: relative;
+	margin: 130px 0 0 18px;
+	max-width: 95%;
+}
+#browse-inner-container {
+	position: relative;
+	background-color: rgba(73, 103, 44, 0.8);
+	padding: 18px 18px 0;
+	z-index:10;
+}
+#browse-inner-container > div:first-child {
+	position: relative;
+	margin: 8px -18px 10px;
+	padding-left: 22px;
+    @media (max-width: 992px) {
+		margin: 8px -18px 9px;
+    }
+}
+div.recent-update-container a,
+a.collections-list-link,
+#menu-links-home-empty span a {
+	color: #1b82a8 !important
+}
+.collections-list-sub-left {
+}
+.collections-list-sub-right {
+}
+.collections-list-label {
+	font-weight: 600;
+}
+.collections-list {
+	padding-top: 12px;
+	overflow: auto;
+	.row {
+		margin-bottom: 12px !important;
+	}
+}
+#collections-list-closer {
+	width: 100%;
+	height: 8px;
+	background-color: rgb(174, 66, 66);
+}
+#collections-list-heading-container {
+	background-image: url(/assets/agra-kms/collections.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100% 120px;
+	text-align: center;
+	width: 100%;
+	height: 50px;padding-top:12px;
+}
+#collections-list-heading {
+	border-radius: 5px;
+	display: inline-block;
+	color: #fff;
+	line-height: 21px;
+	padding: 2px 3px;
+	font-size: 22px;
+	font-weight: 400;
+	background-color: rgba(113, 44, 44, 0.6);
+}
+.btn-link.btn-anchor {
+    outline: none !important;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+}
+#homepage-flash-container {
+	position: absolute;
+	top:- 30px;
+	left: 70px;
+	width: 88%;
 }

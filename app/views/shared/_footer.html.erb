@@ -1,16 +1,20 @@
 <footer class="navbar site-footer">
+	  
   <div class="container-fluid">
     <div class="navbar-left">
-    <div class="footer-text text-left">
-			<p></p>
-      <p>
-				<%= t('hyrax.footer.teeal_html') %><br/><%= t('hyrax.footer.mann_library_html') %>
-			</p>
-    </div>
-</div>
-    <div class="navbar-right">
-      <div class="footer-text float-right"><p></p>
-      </div>
+      <div class="footer-text text-left footer-text-left">
+	    <img id="footer-image" src="/assets/agra-kms/AGRA_791.jpg"/>
+     </div>
+		<div id="footer-image-text" class="footer-text">
+			<!-- This div is for footer text that will appear on the left side but will not over lap the image -->
+		</div>
+  </div>
+  <div class="navbar-right">
+    <div class="footer-text float-right footer-text-right">
+	  <p>Copyright <span class="glyphicon glyphicon-copyright-mark"></span> <a id="agra-link" href="http://www.agra.org">AGRA</a> All rights reserved.</p>
+	  <p id="licensing">Powered by Samvera, Hyrax<br/>Licensed under the Apache License, Version 2.0</p>
     </div>
   </div>
 </footer>
+
+

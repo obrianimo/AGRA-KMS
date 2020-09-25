@@ -1,0 +1,72 @@
+  <li class="h5"><%= t('hyrax.admin.sidebar.activity') %></li>
+
+  <li>
+    <%= menu.collapsable_section t('hyrax.admin.sidebar.user_activity'),
+                                 icon_class: "fa fa-line-chart",
+                                 id: 'collapseUserActivity',
+                                 open: menu.user_activity_section? do %>
+      <%= menu.nav_link(hyrax.dashboard_profile_path(current_user),
+                        also_active_for: hyrax.edit_dashboard_profile_path(current_user)) do %>
+        <span class="fa fa-id-card"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.profile') %></span>
+      <% end %>
+
+      <%= menu.nav_link(hyrax.notifications_path) do %>
+        <span class="fa fa-bell"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.notifications') %></span>
+      <% end %>
+
+      <%= menu.nav_link(hyrax.transfers_path) do %>
+        <span class="fa fa-arrows-h"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.transfers') %></span>
+      <% end %>
+
+      <% if Flipflop.proxy_deposit? %>
+        <%= menu.nav_link(hyrax.depositors_path) do %>
+          <span class="fa fa-users"></span> <span class="sidebar-action-text"><%= t('hyrax.dashboard.manage_proxies') %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </li>
+
+  <% if can? :read, :admin_dashboard %>
+    <%= menu.nav_link(hyrax.admin_stats_path) do %>
+      <span class="fa fa-pie-chart"></span> <span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.statistics') %></span>
+    <% end %>
+
+
+	<li>
+	    <a role="button" class="collapse-toggle collapsed" data-toggle="collapse" href="#collapseKMSReports" aria-expanded="false" aria-controls="collapseKMSReports">
+		  <span class="fa fa-bar-chart"></span> <span>KMS Reports</span>
+		</a>
+		<ul class="nav nav-pills nav-stacked collapse" id="collapseKMSReports" aria-expanded="false" style="height: 0px;">
+	        <li>
+	        	<a href="/collection_report">
+	        		<span class="fa fa-copy"></span> 
+	        		<span class="sidebar-action-text">Collection Details</span>
+	        	</a>
+	        </li>
+	        <li>
+	        	<a href="/deposit_history">
+	        		<span class="fa fa-upload"></span> 
+	        		<span class="sidebar-action-text">Deposit History</span>
+	        	</a>
+	        </li>
+	        <li>
+	        	<a href="/usage_reports/usage_stats">
+	        		<span class="fa fa-binoculars"></span> 
+	        		<span class="sidebar-action-text"><%= t('hyrax.admin.sidebar.file_views') %></span>
+	        	</a>
+	        </li>
+	        <li>
+	        	<a href="/search_history">
+	        		<span class="fa fa-search"></span> 
+	        		<span class="sidebar-action-text">Search History</span>
+	        	</a>
+	        </li>
+	    </ul>
+	</li>
+    
+
+
+
+
+
+  <% end %>

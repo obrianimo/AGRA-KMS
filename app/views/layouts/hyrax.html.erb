@@ -4,56 +4,68 @@
     <%= render partial: 'layouts/head_tag_content' %>
     <%= content_for(:head) %>
   </head>
-
   <body class="<%=params[:controller]%>_<%= params[:action]%>">
-    <div class="skip-to-content">
-      <%= link_to "Skip to Content", "#skip-to-content", data: { turbolinks: false } %>
-    </div>
-    <%= render '/masthead' %>
-    <%= content_for(:navbar) %><!-- content for navbar -->
-    <%= content_for(:precontainer_content) %><!-- content for precontainer_content -->
-	<% if params[:controller].include? "homepage" %>
-		<div class="lightbox">
-		  <%= render '/flash_msg' %>
-		  <div class="jumbotron">
-	      <div>
-				  	<%= render 'hyrax/homepage/announcement' if controller_name == 'homepage' %>
-				</div>
-		    <div class="container">
-		      <div class="row">
-		        <div class="col-md-6 search-browse">
-		          <%= render_search_bar %>
-				  <div class="collections-container">
-					<%= render 'home_browse_by', collections: @presenter.collections %>
-				  </div>
-				</div>
-			    <div class="col-md-6">
-	        	  <p class="overview">The AGRA Knowledge Management System provides access to internal AGRA documents.</p>
-							<%= render "hyrax/homepage/marketing" if controller_name == 'homepage' %>
-			    </div>
-		      </div>
-		    </div>
-		  </div>
-		 </div>
+	<% if params[:controller] == "user/sessions" && params[:action] == "new" %>
+		<%= content_for?(:content) ? yield(:content) : yield %>
+	<% else %>
+	     <div class="skip-to-content">
+	       <%= link_to "Skip to Content", "#skip-to-content", data: { turbolinks: false } %>
+	     </div>
+	     <%= render '/masthead' %>
+	     <%= content_for(:navbar) %><!-- content for navbar -->
+	     <%= content_for(:precontainer_content) %><!-- content for precontainer_content -->
+	 	<% if params[:controller].include? "homepage" %>
+	 		<section class="home-search" style="position:relative">
+	 		  <div id="homepage-flash-container">
+	 		    <%= render '/flash_msg' %>
+	 		  </div>
+			  <%= render '/hyrax/homepage/home_controls' %>
+	 		  <% if current_user.nil? && !check_for_public_docs %>
+	 		    <div class="row margin-zero">
+	 		      <div class="col-xs-6 col-sm-6">
+	 		      </div>
+	 		      <div id="login-container" class="col-xs-5 col-sm-5 col-md-5 col-lg-4">
+	 		        <%= render '/custom_login' %>
+	 		      </div>
+	 		    </div>
+	 		  <% else %>
+	 		    <div class="row margin-zero" >
+	 		      <div class="col-md-8 search-text">
+	 		        <span >Search Publications</span>
+	 		      </div>
+	 		    </div>
+	 		    <div class="row margin-zero">
+	 		      <div class="col-xs-8 col-sm-7 col-md-7 col-lg-7 search-browse">
+	 		        <%= render_search_bar %>
+	 		      </div>
+	 		      <div class="col-md-2">
+	 		      </div>
+	 		    </div>
+	 			  <%= render '/hyrax/homepage/home_browse_by' %>
+	 		    </div>
+	 		  <% end %>
+	 		</section>
+	 	<% end %>
+	     <div id="content-wrapper" class="container-fluid" role="main">
+	       <% if !params[:controller].include? "homepage" %> <%= render '/flash_msg' %> <%end%>
+	       <%# render_breadcrumbs builder: Hyrax::BootstrapBreadcrumbsBuilder %>
+	       <% if content_for?(:page_header) %>
+	         <div class="row">
+	           <div class="col-xs-12 main-header">
+	             <%= yield(:page_header) %>
+	           </div>
+	         </div>
+	       <% end %>
+	 
+	         <a name="skip-to-content" id="skip-to-content"></a>
+	 		<!-- start content for content -->
+	         <%= content_for?(:content) ? yield(:content) : yield %>
+	 		<!-- end content for content -->
+	 
+	     </div><!-- /#content-wrapper -->
+	 	<div class="footer-padding">
+	     <%= render 'shared/footer' %>
+	     <%= render 'shared/ajax_modal' %>
 	<% end %>
-    <div id="content-wrapper" class="container" role="main">
-      <% if !params[:controller].include? "homepage" %> <%= render '/flash_msg' %> <%end%>
-      <%= render_breadcrumbs builder: Hyrax::BootstrapBreadcrumbsBuilder %>
-      <% if content_for?(:page_header) %>
-        <div class="row">
-          <div class="col-xs-12 main-header">
-            <%= yield(:page_header) %>
-          </div>
-        </div>
-      <% end %>
-
-        <a name="skip-to-content" id="skip-to-content"></a>
-		<!-- start content for content -->
-        <%= content_for?(:content) ? yield(:content) : yield %>
-		<!-- end content for content -->
-
-    </div><!-- /#content-wrapper -->
-    <%= render 'shared/footer' %>
-    <%= render 'shared/ajax_modal' %>
   </body>
 </html>

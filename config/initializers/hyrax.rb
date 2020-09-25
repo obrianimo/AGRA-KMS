@@ -56,7 +56,7 @@ Hyrax.config do |config|
   # Enable displaying usage statistics in the UI
   # Defaults to false
   # Requires a Google Analytics id and OAuth2 keyfile.  See README for more info
-  config.analytics = true
+  config.analytics = false
 
   # Google Analytics tracking ID to gather usage statistics
   # config.google_analytics_id = 'UA-99999999-1'
@@ -103,7 +103,7 @@ Hyrax.config do |config|
 
   # Option to enable/disable full text extraction from PDFs
   # Default is true, set to false to disable full text extraction
-  # config.extract_full_text = true
+  config.extract_full_text = false
 
   # How many seconds back from the current time that we should show by default of the user's activity on the user's dashboard
   # config.activity_to_show_default_seconds_since_now = 24*60*60
