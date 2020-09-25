@@ -8,8 +8,8 @@ Rails.application.configure do
 
   # queues for background jobs
   # even though this is dev, for now set this to :resque rather than :inline
-  config.active_job.queue_adapter = :inline 
-  #config.active_job.queue_adapter = :sidekiq 
+  # config.active_job.queue_adapter = :inline 
+  config.active_job.queue_adapter = :sidekiq 
 
   # Do not eager load code on boot.
   config.eager_load = false
@@ -30,13 +30,13 @@ Rails.application.configure do
 
     config.cache_store = :null_store
   end
-  
-  # configuration of action_mailer which uses Amazon SES
 
+  # configuration of action_mailer which uses Amazon SES
+  #
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { :host => ENV['MAILER_HOST'] }
-
+  
   config.action_mailer.smtp_settings = {
     port: 465,
     domain: 'kms.agra.org',
